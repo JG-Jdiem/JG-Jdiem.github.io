@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <meta name = "theme-color" content="#000000">
+  <link rel="stylesheet" href="styles/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
+  <title>FantaStats | Formazioni</title>
+  <style>
+      :root {
+          --difensori: #5ac20a;
+          --centrocampisti: #2363e4;
+          --attaccanti: #f10f32;
+          --BlueLightMode: #024cc8;
+          --BlueDarkMode: #1f73ff;
+      }
+      .container{
+          width: 80%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+      }
+      .team-header{
+          background: linear-gradient(135deg, var(--BlueDarkMode), var(--BlueLightMode));
+          color: black;
+          padding: 20px;
+          border-radius: 10px;
+          margin-bottom: 20px;
+          margin-top: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+      .team-info{
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          background-color: transparent;
+      }
+      .done-button{
+            font-size: 1.2em;
+            border-radius: 20px;
+            padding: 5px 15px;
+            border: 0;
+          transition: transform 0.2s;
+        }
+      .done-button:hover{
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      }
+        .fa-check{
+          margin-right: 10px
+        }
+      /*.name{
+          font-size: 2rem;
+      }*/
+      .players-section{
+          min-height: 15rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center; 
+          background-color: white;
+          border-radius: 10px;
+      }
+      .players-header{
+          display: flex;
+          flex-direction: row;
+          width: 90%;
+          height: 5.5rem;
+          color: black;
+          gap: 20px;
+          align-items: center;
+          justify-content: space-evenly;
+          background-color: transparent;
+          /*border-radius: 2rem;*/
+          transition: transform 0.2s;
+          border-bottom: 1px solid #eee;
+          margin-bottom: 2vh;
+      }
+      .player{
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          height: 2.4vw;
+          margin-block: 1vh;
+          padding: 5px;
+          padding-block: 12px;
+          border-radius: 2rem;
+          transition: transform 0.2s;
+      }
+      .player:hover{
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .role{
+          width: 2.4vw;
+          height: 2.4vw;
+          border-radius: 100px;
+          font-size: 1.8vw;
+          text-align: center;
+          align-content: center;
+          color: white;
+      }
+      .D{
+          background-color: var(--difensori);
+      }
+      .C{
+          background-color: var(--centrocampisti);
+      }
+      .A{
+          background-color: var(--attaccanti);
+      }
+      .name-trash{
+          width: 60%;
+          display: flex;
+          justify-content: space-between;
+      }
+      .name_player{
+          height: 2.8vw;
+          font-size: 2.4vw;
+      }
+      .fa-trash{
+          border: 0;
+          background-color: transparent;
+          margin: 0;
+          font-size: 2vw;
+          height: 2.8vw;
+          width: 2.8vw;
+          align-content: center;
+      }
+      /*.add:hover{
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }*/
+      .hidden{
+          display: none;
+      }
+      /*.plus{
+          font-size: 4rem;
+          height: 100%;
+          display: flex;
+      }*/
+      h3{
+          font-size: 2.6vw;
+      }
+      .name-container, .name-input{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          background-color: transparent;
+          color: white;
+          margin: 0;
+      }   
+      .name-input{
+          font-size: 2.6vw;
+          border: 1px solid #ccc;
+          border-radius: 40px;
+          padding: 8px;
+          margin-bottom: 20px;
+      }
+      .name-input::placeholder{
+          color: lightgray
+      }
+      .name-team{
+          color: black;
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+      }
+
+      .searchPlayers{
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          width: 220px; /* Larghezza di base del contenitore */
+          max-width: 100%; /* Assicura che non superi mai la larghezza disponibile */
+          font-size: 2em;
+      }
+      #searchInputAdd {
+        display: flex;
+        flex-direction: column;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        height: 1.25rem;
+        width: 200px;
+        max-width: 90%; /* Assicura che l'input non superi la larghezza del contenitore */
+      }
+      .search-results-add {
+        position: absolute;
+        top: 100%; /* Posiziona i risultati sotto l'input */
+        width: 100%;
+        max-height: 300px;
+        overflow-y: auto;
+        z-index: 1000; /* Assicura che i risultati siano sopra gli altri elementi */
+      }
+      .search-result-item-add {
+        background-color: white;
+        font-size: 0.5em;
+        color: black;
+        padding: 8px;
+        cursor: pointer;
+        border-bottom: 1px solid #eee;
+      }
+      .search-result-item-add:hover {
+        background: #f5f5f5;
+        color: black;
+      }
+      @media(prefers-color-scheme: dark){
+          /*.add{
+              background-color: black;
+              color: white;
+          }
+          .add:hover{
+              transform: translateY(-2px);
+              box-shadow: 0 4px 8px white;
+          }*/
+          #searchInputAdd{
+              background-color: black;
+              color: white;
+          }
+          .players-section{
+              background-color: black;
+              color: white
+          }
+          .players-header{
+              color: white
+          }
+          .done-button{
+              background-color: black;
+              color: white;
+              transition: transform 0.2s
+          }
+          .done-button:hover{
+              transform: translateY(-2px);
+              box-shadow: 0 4px 8px white;
+          }
+          .fa-trash{
+              color: white
+          }
+          .player:hover{
+              transform: translateY(-2px);
+              box-shadow: 0 4px 8px white;
+          }
+          .search-result-item-add{
+              background-color: black;
+              color: white;
+          }
+      }
+      @media (orientation: portrait){
+          .team-header{
+              border-radius: 20px;
+          }
+          .players-header{
+              width: 100%;
+              height: 10vh;
+              background-color: transparent;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+          }
+          .player{
+                justify-content: space-between;
+              padding: 2rem;
+              border-radius: 3rem;
+              margin-block: 0.5vh;
+          }
+          .name_player, .role, .fa-trash{
+              font-size: 4vw;
+          }
+          .role{
+              width: 4.8vw;
+              height: 4.8vw;
+          }
+          .name-trash{
+              width: 80%;
+              margin-right: 1rem;
+              height: 4.8vw;
+              text-align: center;
+          }
+          .name-input, h3{
+              font-size: 6vw;
+          }
+         .done-button{
+              font-size: 4vw;
+              border-radius: 40px;
+              padding: 10px 20px;
+          }
+          .searchPlayers {
+              width: 60%;
+          }
+          #searchInputAdd{
+              width: 100%;
+              margin: 0;
+              font-size: 5vw;
+              height: 2.5vh;
+          }
+          #searchInputAdd::placeholder{
+              font-size: 4vw;
+          }
+      }
+  </style>
+</head>
+<body>
+<header>
+    <h1>
+        <a href="index.html">
+            <span class="f">F</span><span>antaStats</span>
+        </a>
+    </h1>
+    <div class="menu">
+        <button class="user-teams" onclick="window.location.href='teams.html'"></button>
+        <div class="search">
+            <button class="search-icon"></button>
+            <div class="search-box hidden">
+                <input type="text" id="searchInput" placeholder="Cerca un giocatore...">
+                <div id="searchResults" class="search-results"></div>
+            </div>
+        </div>
+    </div>
+</header>
+  <hr>
+<h2>Inserire nuova squadra</h2>
+    <div class="team-header">
+        <div class="team-info">
+            <h3 class="name-container"><input type="text" class="name-input" placeholder="Inserire nome rosa..."></h3>
+            <button class="done-button" onclick="save()"><i class="fa-solid fa-check"></i>Fatto</button>
+        </div>
+    </div>
+        <!--<div class="name-container">
+            <input type="text" class="name-team" placeholder="Nome rosa...">
+        </div>-->
+        <!--<div class="add"><span class='plus'>+</span><br><span class='name'>
+            <input type="text" id="searchInputAdd" placeholder="Cerca un giocatore...">
+            <div id="searchResultsAdd" class="search-results-add"></div>
+        </span>
+        </div>
+        <div class="container" id="container"></div>-->
+    <div class="players-section">
+        <div class="players-header">
+            <h3>Giocatori</h3>
+            <div class="searchPlayers">
+                <input type="text" id="searchInputAdd" placeholder="Aggiungi un giocatore...">
+                <div id="searchResultsAdd" class="search-results-add"></div>
+            </div>
+        </div>
+        <div class="container" id="container"></div>
+    </div>
+  <script src="script.js"></script>
+  <script>
+
+      function load(){
+          //localStorage.removeItem("teams");
+          teams.teams = [];
+          console.log(teams);
+          teams = JSON.parse(localStorage.getItem("teams"));
+          console.log(teams);
+      }
+
+      document.addEventListener('DOMContentLoaded', () => load());
+      var newTeam = {
+          name: "",
+          player: []
+      };
+
+      var teams = {
+          teams: []
+      }
+
+      function removePlayer(playerId){
+            const player = document.querySelector(`[class*="${playerId}"]`);
+            const indiceGiocatore = newTeam.player.findIndex(x => x.id === playerId);
+            if (indiceGiocatore !== -1) {
+              newTeam.player.splice(indiceGiocatore, 1);
+            }
+            if (player) {
+              player.remove();
+            }
+            console.log(newTeam);
+            return 0;
+      }
+
+      function save(){
+          const name = document.querySelector(".name-input").value;
+          if(name=="" || name==null || name.trim()==''){
+              console.log("No name");
+              return 1;
+          }
+          newTeam.name = name;
+          if(newTeam.player.length == 0){
+              console.log("No players");
+              return 2;
+          }
+          if(newTeam.player.length < 22){
+                console.log(`Only ${newTeam.player.length} players`);
+                return 3;
+          }
+          //console.log(teams);
+          if(teams == null)
+              teams = {
+                  teams: []
+              };
+
+          teams.teams.push(newTeam);
+          localStorage.setItem("teams", JSON.stringify(teams));
+          console.log(JSON.stringify(teams));
+          window.location.href = "teams.html";
+      }
+
+    document.addEventListener('DOMContentLoaded', () => {
+          const searchInputAdd = document.getElementById('searchInputAdd');
+          const searchResultsAdd = document.getElementById('searchResultsAdd');
+          const add = document.querySelector('.add');
+          const header = document.querySelector('.team_header');
+
+          function addPlayer(playerId, players){
+            /*var data = JSON.parse(localStorage.getItem("userTeams"));*/
+            console.log(playerId);
+            const container = document.getElementById("container");
+            if(newTeam.player.some(x => x.id == playerId)){
+                console.log("Già messo");
+                return;
+            }
+            const player = document.createElement("div");
+            const role = players.filter(x => x.ParticipantId == playerId).map(x => x.role)[0];
+            player.className = `player ${playerId}`;
+            player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == playerId).map(x => x.ParticipantName)}</div><button class="fa-solid fa-trash" onclick="removePlayer('${playerId}')"></button></div>`;
+            container.appendChild(player);
+            searchResultsAdd.innerHTML = '';
+            searchInputAdd.value = '';
+            const newPlayer = {
+                role: role,
+                id: playerId
+            };
+            newTeam.player.push(newPlayer);
+            if(newTeam.player.length == 25){
+                add.classList.add('hidden');
+            }
+            console.log(newTeam);
+            return 0;
+        }
+
+        searchInputAdd.addEventListener('input', async () => {
+              const searchTerm = searchInputAdd.value.toLowerCase();
+              if (searchTerm.length < 2) {
+                  searchResultsAdd.innerHTML = '';
+                  return;
+              }
+
+              try {
+                  // Qui dovrai caricare il tuo file JSON con i giocatori
+                  const response = await fetch('data.json'); // Assicurati di avere questo file
+                  const players = await response.json();
+
+                  const filteredPlayers = players.filter(player => 
+                      player.ParticipantName.toLowerCase().includes(searchTerm)
+                  );
+
+                  searchResultsAdd.innerHTML = filteredPlayers
+                      .slice(0, 10) // Mostra solo i primi 10 risultati
+                      .map(player => `
+                          <div class="search-result-item-add" data-player-id="${player.ParticipantId}">
+                              ${player.ParticipantName} - ${player.TeamName}
+                          </div>
+                      `).join('');
+
+                  // Gestisci il click sui risultati
+                  document.querySelectorAll('.search-result-item-add').forEach(item => {
+                      item.addEventListener('click', () => {
+                          const playerId = item.dataset.playerId;
+                          // Qui puoi aggiungere la logica per navigare alla pagina del giocatore
+                          //console.log(item.dataset);
+                          addPlayer(playerId, players);
+                          //window.location.href = `player.html?id=${playerId}`;
+                      });
+                  });
+
+              } catch (error) {
+                  console.error('Errore nel caricamento dei giocatori:', error);
+                  searchResultsAdd.innerHTML = '<div class="error">Errore nel caricamento dei giocatori</div>';
+              }
+          });
+      });
+  </script>  
+</body>
+</html>

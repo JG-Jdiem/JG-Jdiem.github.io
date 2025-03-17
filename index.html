@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <meta name = "theme-color" content="#000000">
+  <link rel="stylesheet" href="styles/style.css"/>
+  <title>FantaStats</title>
+</head>
+<body>
+<header>
+    <h1>
+        <span class="f">F</span><span>antaStats</span>
+    </h1>
+    <div class="menu">
+        <button class="user-teams" onclick="window.location.href='teams.html'"></button>
+        <div class="search">
+            <button class="search-icon"></button>
+            <div class="search-box hidden">
+                <input type="text" id="searchInput" placeholder="Cerca un giocatore...">
+                <div id="searchResults" class="search-results"></div>
+            </div>
+        </div>
+    </div>
+</header>
+  <hr>
+  <h2>
+    <label>Giornata</label>
+    <select name="day" id="daySelect">
+        <option value="01">01</option>
+        <option value="11">02</option>
+        <option value="21">03</option>
+        <option value="31">04</option>
+        <option value="41">05</option>
+        <option value="51">06</option>
+        <option value="61">07</option>
+        <option value="71">08</option>
+        <option value="81">09</option>
+        <option value="91">10</option>
+        <option value="101">11</option>
+        <option value="111">12</option>
+        <option value="121">13</option>
+        <option value="131">14</option>
+        <option value="141">15</option>
+        <option value="151">16</option>
+        <option value="161">17</option>
+        <option value="171">18</option>
+        <option value="181">19</option>
+        <option value="191">20</option>
+        <option value="201">21</option>
+        <option value="211">22</option>
+        <option value="221">23</option>
+        <option value="231">24</option>
+        <option value="241">25</option>
+        <option value="251">26</option>
+        <option value="261">27</option>
+        <option value="271">28</option>
+        <option value="281">29</option>
+        <option value="291">30</option>
+        <option value="301">31</option>
+        <option value="311">32</option>
+        <option value="321">33</option>
+        <option value="331">34</option>
+        <option value="341">35</option>
+        <option value="351">36</option>
+        <option value="361">37</option>
+        <option value="371">38</option>
+    </select>
+  </h2>
+  <div id="matches-container"></div>
+  <script src="script.js"></script>
+  <script>
+    let allMatches = [];
+    let currentPage = 1;
+    const matchesPerPage = 10;
+
+    function formatDate(utcTime) {
+        const date = new Date(utcTime);
+        return date.toLocaleDateString('it-IT', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    }
+
+    function formatTime(utcTime) {
+        const date = new Date(utcTime);
+        return date.toLocaleTimeString('it-IT', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+
+    function groupMatchesByDate(matches) {
+        const grouped = {};
+        matches.forEach(match => {
+            const date = match.status.utcTime.split('T')[0];
+            if (!grouped[date]) {
+                grouped[date] = [];
+            }
+            grouped[date].push(match);
+        });
+        return grouped;
+    }
+
+    function getMatchesInRange(start, end) {
+        return allMatches.slice(start - 1, end);
+    }
+
+    function getScoreDisplay(match) {
+        if (match.notStarted) {
+            return "vs";
+        } else if (match.status && match.status.scoreStr) {
+            return match.status.scoreStr;
+        }
+        return "-";
+    }
+
+    function getMatchStatus(match) {
+        if (match.notStarted) {
+            return "Da giocare";
+        } else if (match.status && match.status.reason) {
+            return match.status.reason.long || match.status.reason.short;
+        }
+        return "";
+    }
+
+    function nextPage() {
+        if ((currentPage * matchesPerPage) < allMatches.length) {
+            currentPage++;
+            updateDisplay();
+        }
+    }
+
+    function prevPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            updateDisplay();
+        }
+    }
+
+    function updateDisplay(selectedDay = '01') {
+        const startMatch = parseInt(document.getElementById('daySelect').value);
+        const endMatch = parseInt(document.getElementById('daySelect').value)+9;
+
+        if (startMatch > endMatch) {
+            alert('Il numero iniziale deve essere minore del numero finale');
+            return;
+        }
+
+        displayMatches(startMatch, endMatch);
+    }
+
+    document.getElementById('daySelect').addEventListener('change', () => {
+        const selectedDay = document.getElementById('daySelect').value;
+        updateDisplay(selectedDay); // Call updateDisplay with the selected day
+    });
+
+    async function firstLoad(){
+        try {
+            if (allMatches.length === 0) {
+                const response = await fetch('calendario.json');
+                allMatches = await response.json();
+            }
+            const day = currentDay(allMatches);
+            console.log(day);
+            setCurrentDayInSelect(day);
+            displayMatches(day, day+9);
+        } catch (error) {
+            console.error('Errore nel caricamento delle partite:', error);
+            container.innerHTML = '<div class="error">Errore nel caricamento delle partite. Verifica che il file calendario.json sia presente e corretto.</div>';
+        }
+    }
+
+      function setCurrentDayInSelect(day) {
+          const daySelect = document.getElementById('daySelect');
+          // Calcola il valore per l'opzione nella select basato sul giorno
+          const optionValue = (day < 10) ? "0" + day : day;
+          console.log(optionValue);
+          // Imposta l'opzione selezionata
+          for(let i = 0; i < daySelect.options.length; i++) {
+              if(daySelect.options[i].value == optionValue) {
+                  daySelect.selectedIndex = i;
+                  break;
+              }
+          }
+      }
+    
+    async function displayMatches(start = 1, end = 10) {
+        try {
+            if (allMatches.length === 0) {
+                const response = await fetch('calendario.json');
+                allMatches = await response.json();
+            }
+            const matches = getMatchesInRange(start, end);
+            const container = document.getElementById('matches-container');
+            container.innerHTML = '';
+
+            const groupedMatches = groupMatchesByDate(matches);
+            const matchDay = document.createElement('div');
+            matchDay.className = 'match-day';
+
+            for (const date in groupedMatches) {
+                const dateHeader = document.createElement('div');
+                dateHeader.className = 'date-header';
+                dateHeader.textContent = formatDate(date);
+                /*matchDay.appendChild(dateHeader);*/
+
+                groupedMatches[date].forEach(match => {
+                    const matchCard = document.createElement('a');
+                    matchCard.className = `match-card ${isFutureMatch(match) ? 'future-match' : ''}`;
+
+                    const scoreDisplay = getScoreDisplay(match);
+                    const statusText = getMatchStatus(match);
+                    matchCard.href = `match.html?partita=${match.home.name}-${match.away.name}`;
+
+                    matchCard.innerHTML = `
+                        <div class="home">
+                        <div class="team team_home">${match.home.name}</div>
+                        <div class="logo_home" style="background-image: url('images/${match.home.id}.png'); background-size: cover"></div>
+                        </div>
+                        <div class="stats">Stats</div>
+                        <!--<div class="score">${scoreDisplay}</div>-->
+                        <div class="away">
+                        <div class="logo_away" style="background-image: url('images/${match.away.id}.png'); background-size: cover"></div>
+                        <div class="team team_away">${match.away.name}</div>
+                        </div>
+                        <!--<div class="match-time" style="grid-column: 1 / span 3">
+                            ${formatTime(match.status.utcTime)}
+                        </div>
+                        <div class="status" style="grid-column: 1 / span 3">
+                            ${statusText}
+                        </div>-->
+                    `;
+
+                    matchDay.appendChild(matchCard);
+                });
+
+                container.appendChild(matchDay);
+            }
+
+            /*document.getElementById('pageInfo').textContent = 
+                `Partite da ${start} a ${end} di ${allMatches.length}`;*/
+
+        } catch (error) {
+            console.error('Errore nel caricamento delle partite:', error);
+            container.innerHTML = '<div class="error">Errore nel caricamento delle partite. Verifica che il file calendario.json sia presente e corretto.</div>';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => firstLoad());
+  
+      function UserTeams(){
+          window.location.href='teams.html';
+      }
+      
+  </script>  
+</body>
+</html>

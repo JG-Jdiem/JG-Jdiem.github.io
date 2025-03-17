@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <meta name = "theme-color" content="#000000">
+  <link rel="stylesheet" href="styles/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
+  <title>FantaStats | Formazioni</title>
+  <style>
+      :root {
+          --difensori: #5ac20a;
+          --centrocampisti: #2363e4;
+          --attaccanti: #f10f32;
+          --BlueLightMode: #024cc8;
+          --BlueDarkMode: #1f73ff;
+      }
+      .container, .containerReplacements{
+          width: 80%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+      }
+      .team-header{
+          background: linear-gradient(135deg, var(--BlueDarkMode), var(--BlueLightMode));
+          color: black;
+          padding: 20px;
+          border-radius: 10px;
+          margin-bottom: 20px;
+          margin-top: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+      .team-info{
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          background-color: transparent;
+      }
+        .fa-trash{
+            position: absolute;
+          color: white;
+            background-color: transparent;
+            border: 0;
+            right: 10%;
+        }
+      /*.name{
+          font-size: 2rem;
+      }*/
+      .players-section{
+          min-height: 15rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center; 
+          background-color: white;
+          border-radius: 10px;
+      }
+      .players-header{
+          display: flex;
+          flex-direction: row;
+          width: 90%;
+          height: 5.5rem;
+          color: black;
+          align-items: center;
+          justify-content: space-evenly;
+          background-color: transparent;
+          transition: transform 0.2s;
+          border-bottom: 1px solid #eee;
+          margin-bottom: 2vh;
+      }
+      .player{
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          min-height: 2vw;
+          height: auto;
+          margin-block: 1vh;
+          padding: 5px;
+          padding-block: 12px;
+          border-radius: 2rem;
+          transition: transform 0.2s;
+      }
+      .player:hover{
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .role{
+          width: 2.4vw;
+          height: 2.4vw;
+          border-radius: 100px;
+          font-size: 1.8vw;
+          text-align: center;
+          align-content: center;
+          color: white;
+      }
+      .D{
+          background-color: var(--difensori);
+      }
+      .C{
+          background-color: var(--centrocampisti);
+      }
+      .A{
+          background-color: var(--attaccanti);
+      }
+      .name-trash{
+          width: 60%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      }
+      .name_player{
+          height: 2.8vw;
+          font-size: 2.4vw;
+          text-align: center;
+          align-content: center;
+      }
+      /*.fa-trash{
+          border: 0;
+          background-color: transparent;
+          margin: 0;
+          font-size: 2vw;
+          height: 2.8vw;
+          width: 2.8vw;
+          align-content: center;
+      }*/
+      /*.add:hover{
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }*/
+      .hidden{
+          display: none;
+      }
+      .stat{
+          background-color: green;
+          text-align: center;
+          align-content: center;
+          border-radius: 1rem;
+          aspect-ratio: 1;
+          color: white;
+      }
+      /*.plus{
+          font-size: 4rem;
+          height: 100%;
+          display: flex;
+      }*/
+      h3, .fa-trash{
+          font-size: 2.6vw;
+      }
+      .module{
+          width: auto;
+      }
+      .name-container{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          background-color: transparent;
+          color: white;
+          margin: 0;
+      }   
+      .name-team{
+          color: black;
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+      }
+      @media(prefers-color-scheme: dark){
+          /*.add{
+              background-color: black;
+              color: white;
+          }
+          .add:hover{
+              transform: translateY(-2px);
+              box-shadow: 0 4px 8px white;
+          }*/
+          .players-section{
+              background-color: black;
+              color: white
+          }
+          .players-header{
+              color: white
+          }
+          .fa-trash{
+              color: white
+          }
+          .player:hover{
+              transform: translateY(-2px);
+              box-shadow: 0 4px 8px white;
+          }
+      }
+      @media (orientation: portrait){
+          .team-header{
+              border-radius: 20px;
+          }
+          .players-header{
+              width: 100%;
+              height: 10vh;
+              background-color: transparent;
+              display: flex;
+              align-items: center;
+              justify-content: space-around;
+          }
+          .player{
+                justify-content: space-between;
+              padding: 10px;
+              padding-block: 24px;
+              border-radius: 3rem;
+              margin-block: 0.5vh;
+          }
+          .name_player, .role, .fa-trash, .stat{
+              font-size: 4vw;
+              align-content: center;
+          }
+          .name_player{
+              min-height: 6vw;
+              height: auto;
+              padding: 0;
+              margin: 0;
+              text-align: center;
+              align-content: center;
+          }
+          .role{
+              width: 4.8vw;
+              height: 4.8vw;
+          }
+          .stat{
+              aspect-ratio: 0;
+              padding: 1.2vw;
+              border-radius: 2rem;
+          }
+          .name-trash{
+              width: 80%;
+              margin-right: 1rem;
+              height: 8vw;
+              text-align: center;
+              align-content: center;
+          }
+          h3, .fa-trash{
+              font-size: 6vw;
+          }
+      }
+  </style>
+</head>
+<body>
+<header>
+    <h1>
+        <a href="index.html">
+            <span class="f">F</span><span>antaStats</span>
+        </a>
+    </h1>
+    <div class="menu">
+        <button class="user-teams" onclick="window.location.href='teams.html'"></button>
+        <div class="search">
+            <button class="search-icon"></button>
+            <div class="search-box hidden">
+                <input type="text" id="searchInput" placeholder="Cerca un giocatore...">
+                <div id="searchResults" class="search-results"></div>
+            </div>
+        </div>
+    </div>
+</header>
+  <hr>
+<h2>Miglior Formazione</h2>
+    <div class="team-header">
+        
+    </div>
+    <div class="players-section">
+        <div class="players-header">
+            <h3>Titolari</h3>
+            <select class="module" id="module">
+                <option selected D="3" C="4" A="3">343</option>
+                <option D="3" C="5" A="2">352</option>
+                <option D="4" C="3" A="3">433</option>
+                <option D="4" C="4" A="2">442</option>
+                <option D="4" C="5" A="1">451</option>
+                <option D="5" C="3" A="2">532</option>
+                <option D="5" C="4" A="1">541</option>
+            </select>
+        </div>
+        <div class="container" id="container"></div>
+        <div class="players-header">
+            <h3>Panchinari</h3>
+        </div>
+        <div class="containerReplacements" id="containerReplacements"></div>
+    </div>
+  <script src="script.js"></script>
+  <script>
+
+      var team;
+      var players;
+      var matches;
+      var thisDay;
+      var gfgs;
+
+      async function load(){
+          const data = JSON.parse(localStorage.getItem("teams"));
+          //console.log(data);
+          const urlParams = new URLSearchParams(window.location.search);
+          const name = urlParams.get('name');
+          //console.log(name);
+          const index = data.teams.findIndex(x => x.name == name);
+          team = data.teams[index];
+          //console.log(team);
+          const container = document.querySelector(".team-header");
+          container.innerHTML = '';
+          const teamName = document.createElement("div");
+          teamName.className = "team-info";
+          teamName.innerHTML = `<h3 class="name-container">${team.name}</h3><button class="fa-solid fa-trash" onclick="removeTeam(${index})"></button>`;
+          container.appendChild(teamName);
+
+          const module = document.getElementById("module");
+          const selectedOption = module.options[module.selectedIndex];
+          var nD = parseInt(selectedOption.getAttribute("D"));
+          var nC = parseInt(selectedOption.getAttribute("C")); 
+          var nA = parseInt(selectedOption.getAttribute("A"));
+
+          await readData();
+          await readMatches();
+          const day = await currentDay(matches)-1;
+          await today(day, day+10);
+          //console.log(thisDay);
+          await readGFGS();
+
+          for(let i=0; i<team.player.length; i++){
+                const home = players.filter(x=>x.ParticipantId == team.player[i].id).map(x=>x.TeamId);
+                var opponent = thisDay.filter(x=>x.home.id == home).map(x=>x.away.id) || null;
+                if(opponent==null || opponent == ""){
+                    opponent = thisDay.filter(x=>x.away.id == home).map(x=>x.home.id) || null;
+                }
+              //console.log(players.findIndex(x => x.ParticipantId == team.player[i].id));
+                const stat = calc(players[players.findIndex(x => x.ParticipantId == team.player[i].id)], home, opponent, gfgs);
+                team.player[i].stat = stat;
+          }
+          
+          // Ordina i giocatori per stat in ordine decrescente
+          team.player.sort((a, b) => b.stat - a.stat);
+          
+          team.player = await raggruppaPerId(team.player);
+
+          const mod = await bestLineUp();
+          console.log(mod);
+          nD = mod.nD;
+          nC = mod.nC;
+          nA = mod.nA;
+          loadLineUp(nD, nC, nA);
+          
+          console.log(team);
+          
+      }
+
+      function readData(){
+          return fetch('data.json') // Assicurati di avere questo file
+          .then(response => response.json())
+          .then(data => {
+            players = data;        
+            //console.log(players[0]);
+          })
+          .catch(error => {
+            console.error('Errore nel caricamento dei giocatori:', error);
+          });
+      }
+
+      function readMatches(){
+            return fetch('calendario.json') // Assicurati di avere questo file
+            .then(response => response.json())
+            .then(data => {
+              matches = data;
+            })
+            .catch(error => {
+              console.error('Errore nel caricamento dei giocatori:', error);
+            });
+        }
+
+      function readGFGS(){
+          return fetch('GFGS.json') // Assicurati di avere questo file
+          .then(response => response.json())
+          .then(data => {
+            gfgs = data;
+          })
+          .catch(error => {
+            console.error('Errore nel caricamento dei giocatori:', error);
+          });
+      }
+
+      function today(start, end){
+          thisDay = matches.slice(start, end);
+          return thisDay;
+      }
+
+
+      function loadLineUp(nD, nC, nA){
+           const container = document.getElementById("container");
+          container.innerHTML = '';
+          for(let i=0; i<team.player.difensori.length && i<nD; i++){
+                const player = document.createElement("div");
+                const role = team.player.difensori[i].role;
+                const stat = team.player.difensori[i].stat;
+                player.className = `player ${team.player.difensori[i].id}`;
+                player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == team.player.difensori[i].id).map(x => x.ParticipantName)}</div><div class="stat")">${stat}%</div></div>`;
+                container.appendChild(player);
+            }
+            for(let i=0; i<team.player.centrocampisti.length && i<nC; i++){
+                  const player = document.createElement("div");
+                  const role = team.player.centrocampisti[i].role;
+                  const stat = team.player.centrocampisti[i].stat;
+                  player.className = `player ${team.player.centrocampisti[i].id}`;
+                  player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == team.player.centrocampisti[i].id).map(x => x.ParticipantName)}</div><div class="stat")">${stat}%</div></div>`;
+                  container.appendChild(player);
+            }
+            for(let i=0; i<team.player.attaccanti.length && i<nA; i++){
+                  const player = document.createElement("div");
+                  const role = team.player.attaccanti[i].role;
+                  const stat = team.player.attaccanti[i].stat;
+                  player.className = `player ${team.player.attaccanti[i].id}`;
+                  player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == team.player.attaccanti[i].id).map(x => x.ParticipantName)}</div><div class="stat")">${stat}%</div></div>`;
+                  container.appendChild(player);
+            }
+          const containerR = document.getElementById("containerReplacements");
+          containerR.innerHTML = '';
+          for(let i=nD; i<team.player.difensori.length; i++){
+              const player = document.createElement("div");
+              const role = team.player.difensori[i].role;
+              const stat = team.player.difensori[i].stat;
+              player.className = `player ${team.player.difensori[i].id}`;
+              player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == team.player.difensori[i].id).map(x => x.ParticipantName)}</div><div class="stat")">${stat}%</div></div>`;
+              containerR.appendChild(player);
+          }
+          for(let i=nC; i<team.player.centrocampisti.length; i++){
+                const player = document.createElement("div");
+                const role = team.player.centrocampisti[i].role;
+                const stat = team.player.centrocampisti[i].stat;
+                player.className = `player ${team.player.centrocampisti[i].id}`;
+                player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == team.player.centrocampisti[i].id).map(x => x.ParticipantName)}</div><div class="stat")">${stat}%</div></div>`;
+                containerR.appendChild(player);
+          }
+          for(let i=nA; i<team.player.attaccanti.length; i++){
+                const player = document.createElement("div");
+                const role = team.player.attaccanti[i].role;
+                const stat = team.player.attaccanti[i].stat;
+                player.className = `player ${team.player.attaccanti[i].id}`;
+                player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == team.player.attaccanti[i].id).map(x => x.ParticipantName)}</div><div class="stat")">${stat}%</div></div>`;
+                containerR.appendChild(player);
+          }
+      }
+
+      function bestLineUp(){
+          const validFormations = [
+              {nD: 3, nC: 4, nA: 3},
+              {nD: 3, nC: 5, nA: 2},
+              {nD: 4, nC: 3, nA: 3},
+              {nD: 4, nC: 4, nA: 2},
+              {nD: 4, nC: 5, nA: 1},
+              {nD: 5, nC: 3, nA: 2},
+              {nD: 5, nC: 4, nA: 1}
+          ];
+
+          let bestFormation = validFormations[0];
+          let bestScore = calculateFormationScore(bestFormation);
+
+          for(let formation of validFormations) {
+              const score = calculateFormationScore(formation);
+              if(score > bestScore) {
+                  bestScore = score;
+                  bestFormation = formation;
+              }
+          }
+
+          return bestFormation;
+      }
+
+      function calculateFormationScore(formation) {
+          const {nD, nC, nA} = formation;
+          let score = 0;
+          
+          // Sum top N players' stats for each role
+          for(let i = 0; i < nD && i < team.player.difensori.length; i++) {
+              score += team.player.difensori[i].stat || 0;
+          }
+          for(let i = 0; i < nC && i < team.player.centrocampisti.length; i++) {
+              score += team.player.centrocampisti[i].stat || 0;
+          }
+          for(let i = 0; i < nA && i < team.player.attaccanti.length; i++) {
+              score += team.player.attaccanti[i].stat || 0;
+          }
+          
+          return score;
+      }
+
+      document.addEventListener('DOMContentLoaded', () => load());
+      document.getElementById('module').addEventListener('change', () => {
+          const selectedOption = module.options[module.selectedIndex];
+          const nD = parseInt(selectedOption.getAttribute("D"));
+          const nC = parseInt(selectedOption.getAttribute("C")); 
+          const nA = parseInt(selectedOption.getAttribute("A"));
+          loadLineUp(nD, nC, nA);
+      });
+
+      function removeTeam(index){
+          let data = JSON.parse(localStorage.getItem("teams"));
+          data.teams.splice(index, 1);
+          localStorage.setItem("teams", JSON.stringify(data));
+          window.location.href = "teams.html";
+      }
+      
+  </script>  
+</body>
+</html>

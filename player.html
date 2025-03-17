@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name = "theme-color" content="#000000">
+    <link rel="stylesheet" href="styles/style.css">
+    <title>FantaStats | Statistiche Giocatore</title>
+    <style>
+        .player-header {
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .player-info {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .player-name {
+            font-size: 2em;
+            margin: 0;
+        }
+
+        .player-team {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .player-role {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.2);
+            margin-top: 10px;
+        }
+
+        .logoTeam{
+            height: 100px; 
+            width:100px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+        .stat-card:hover{
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-title {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.8em;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .stat-card.highlight {
+            background: linear-gradient(to right bottom, #2ecc71, #27ae60);
+            color: white;
+        }
+
+        .highlight .stat-title,
+        .highlight .stat-value {
+            color: white;
+        }
+
+        .performance-section {
+            margin-top: 30px;
+        }
+
+        .performance-title {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+       @media (prefers-color-scheme: dark){
+           .stat-card {
+               background: black;
+               transition: transform 0.2s;
+           }
+           .stat-card:hover{
+               transform: translateY(-2px);
+               box-shadow: 0 4px 8px gray;
+           }
+           .stat-card.highlight{
+               box-shadow: none;
+           }
+           .stat-title, .stat-value {
+               color: white;
+           }
+           .performance-title{
+               color: white;
+           }
+       }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>
+            <a href="index.html">
+                <span class="f">F</span><span>antaStats</span>
+            </a>
+        </h1>
+        <div class="menu">
+            <button class="user-teams" onclick="window.location.href='teams.html'"></button>
+            <div class="search">
+                <button class="search-icon"></button>
+                <div class="search-box hidden">
+                    <input type="text" id="searchInput" placeholder="Cerca un giocatore...">
+                    <div id="searchResults" class="search-results"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <hr>
+    <div id="player-container">
+        <!-- Il contenuto verrà inserito dinamicamente -->
+    </div>
+    <script src="script.js"></script>
+    <script>
+        async function loadPlayerData() {
+            // Ottieni l'ID del giocatore dall'URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const playerId = urlParams.get('id');
+            console.log(playerId);
+
+            try {
+                const response = await fetch('data.json'); // Sostituisci con il percorso del tuo file JSON
+                const players = await response.json();
+                const player = players.find(p => p.ParticipantId.toString() === playerId);
+
+                if (!player) {
+                    throw new Error('Giocatore non trovato');
+                }
+
+                const container = document.getElementById('player-container');
+                container.innerHTML = `
+                    <div class="player-header" style="background: linear-gradient(to right, ${player.TeamColor}, ${lightenColor(player.TeamColor, 25)});">
+                        <div class="player-info">
+                            <div class="name-team">
+                                <h3 class="player-name">${player.ParticipantName}</h3>
+                                <div class="player-team">${player.TeamName}</div>
+                                <div class="player-role">Ruolo: ${player.role}</div>
+                            </div>
+                            <div class="logoTeam" style="background: url(images/${player.TeamId}.png) no-repeat center; background-size: contain"></div>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card highlight">
+                            <div class="stat-title">Goal Fatti</div>
+                            <div class="stat-value">${player.GF}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Assist Fatti</div>
+                            <div class="stat-value">${player.AF}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Expected Goals (xG)</div>
+                            <div class="stat-value">${player.XG.toFixed(1)}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Tiri per Partita</div>
+                            <div class="stat-value">${player.Tiri}</div>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-title">Tiri in Porta per Partita</div>
+                            <div class="stat-value">${player.TiriInPorta}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">% Contrasti Vinti</div>
+                            <div class="stat-value">${player.ContrastiVinti}%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Partite Giocate</div>
+                            <div class="stat-value">${player.MatchesPlayed}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Minuti Giocati</div>
+                            <div class="stat-value">${player.MinutesPlayed}</div>
+                        </div>
+                    </div>
+
+                    <div class="performance-section">
+                        <h2 class="performance-title">Statistiche Avanzate</h2>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-title">Expected Assists (xA)</div>
+                                <div class="stat-value">${player.XA.toFixed(1)}</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-title">xG per 90 minuti</div>
+                                <div class="stat-value">${player.XG90.toFixed(2)}</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-title">Intercetti per 90'</div>
+                                <div class="stat-value">${player.Intercet90.toFixed(1)}</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-title">PWM per 90'</div>
+                                <div class="stat-value">${player.PWM90.toFixed(1)}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+            } catch (error) {
+                console.error('Errore nel caricamento dei dati:', error);
+                document.getElementById('player-container').innerHTML = `
+                    <div style="color: red; text-align: center; padding: 20px;">
+                        Errore nel caricamento dei dati del giocatore
+                    </div>
+                `;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadPlayerData);
+    </script>
+</body>
+</html>

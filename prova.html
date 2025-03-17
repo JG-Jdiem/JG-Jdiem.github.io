@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .match-list {
+            cursor: pointer;
+        }
+        .match:hover {
+            background-color: #f0f0f0;
+        }
+        .player-list {
+            display: none;
+        }
+        .player-list.active {
+            display: block;
+        }
+        .team-section {
+            margin: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+        }
+        .role-section {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Lista delle partite -->
+    <div class="match-list">
+        <div class="match" data-match-id="1">
+            Milan vs Inter - 20:45
+        </div>
+        <div class="match" data-match-id="2">
+            Juventus vs Roma - 18:30
+        </div>
+    </div>
+
+    <!-- Dettagli delle partite (inizialmente nascosti) -->
+    <div id="match-1" class="player-list">
+        <h2>Milan vs Inter</h2>
+        
+        <div class="team-section">
+            <h3>Milan</h3>
+            <div class="role-section">
+                <h4>Portieri</h4>
+                <ul>
+                    <li>Maignan</li>
+                </ul>
+            </div>
+            <div class="role-section">
+                <h4>Difensori</h4>
+                <ul>
+                    <li>Calabria</li>
+                    <li>Tomori</li>
+                    <li>Thiaw</li>
+                    <li>Theo Hernandez</li>
+                </ul>
+            </div>
+            <!-- Altri ruoli... -->
+        </div>
+
+        <div class="team-section">
+            <h3>Inter</h3>
+            <div class="role-section">
+                <h4>Portieri</h4>
+                <ul>
+                    <li>Sommer</li>
+                </ul>
+            </div>
+            <!-- Altri ruoli... -->
+        </div>
+    </div>
+
+    <script>
+        // Dati delle partite (in pratica verrebbero dal backend)
+        const matchData = {
+            "1": {
+                home: {
+                    name: "Milan",
+                    players: {
+                        portieri: ["Maignan", "Sportiello"],
+                        difensori: ["Calabria", "Tomori", "Thiaw", "Theo"],
+                        centrocampisti: ["Loftus-Cheek", "Reijnders", "Bennacer"],
+                        attaccanti: ["Leao", "Giroud", "Pulisic"]
+                    }
+                },
+                away: {
+                    name: "Inter",
+                    players: {
+                        portieri: ["Sommer", "Audero"],
+                        difensori: ["Pavard", "Acerbi", "Bastoni", "Darmian"],
+                        centrocampisti: ["Barella", "Calhanoglu", "Mkhitaryan"],
+                        attaccanti: ["Lautaro", "Thuram", "Arnautovic"]
+                    }
+                }
+            },
+            // Altri match...
+        };
+
+        // Gestione del click sulle partite
+        document.querySelectorAll('.match').forEach(match => {
+            match.addEventListener('click', function() {
+                const matchId = this.dataset.matchId;
+                const match = matchData[matchId];
+                
+                // Nascondi tutti i dettagli
+                document.querySelectorAll('.player-list').forEach(detail => {
+                    detail.classList.remove('active');
+                });
+                
+                // Mostra i dettagli della partita selezionata
+                const detailElement = document.getElementById(`match-${matchId}`);
+                if (detailElement) {
+                    detailElement.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

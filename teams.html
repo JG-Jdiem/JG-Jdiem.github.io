@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <meta name = "theme-color" content="#000000">
+  <link rel="stylesheet" href="styles/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
+  <title>FantaStats | Formazioni</title>
+  <style>
+      .container{
+          /*display: flex;
+          justify-content: center;
+          align-items: center;*/
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          justify-content: center;
+      }
+      .add{
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+          /*width: 10rem;
+          height: 10rem;*/
+          color: black;
+          font-size: 4rem;
+          text-align: center;
+          text-justify: center;
+          align-items: center;
+          justify-content: center;
+          background-color: white;
+          border: 0;
+          padding-block: 3rem;
+          border-radius: 2rem;
+          transition: transform 0.2s;
+      }
+      .add:hover{
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .fa-plus, .fa-futbol{
+          margin-bottom: 1rem;
+      }
+      .name{
+          font-size: 1rem;
+      }
+      @media(prefers-color-scheme: dark){
+          .add{
+              background-color: black;
+              color: white;
+          }
+          .add:hover{
+              transform: translateY(-2px);
+              box-shadow: 0 4px 8px white;
+          }
+      }
+      @media(orientation: portrait){
+          .container{
+              grid-template-columns: repeat(auto-fit, minmax(250px, 80%));
+              justify-content: center;
+          }
+          .add{
+              font-size: 8rem;
+          }
+          .name{
+              font-size: 3rem;
+          }
+      }
+    </style>
+</head>
+<body>
+<header>
+    <h1>
+        <a href="index.html">
+            <span class="f">F</span><span>antaStats</span>
+        </a>
+    </h1>
+    <div class="menu">
+        <button class="user-teams" onclick="window.location.href='teams.html'"></button>
+        <div class="search">
+            <button class="search-icon"></button>
+            <div class="search-box hidden">
+                <input type="text" id="searchInput" placeholder="Cerca un giocatore...">
+                <div id="searchResults" class="search-results"></div>
+            </div>
+        </div>
+    </div>
+</header>
+  <hr>
+<h2>Ottimizza Formazione</h2>
+    <div class="container" id="container"></div>
+  <script src="script.js"></script>
+  <script>
+
+      function load(){
+          const container = document.getElementById("container");
+          container.innerHTML = '';
+          // Recupera le squadre esistenti o inizializza un array vuoto
+          let existingTeams = JSON.parse(localStorage.getItem("teams")) || [];
+          console.log(JSON.parse(localStorage.getItem("teams")));
+          if(existingTeams != null && existingTeams.length!=0){
+              for(let i=0; i<existingTeams.teams.length; i++){
+                    const team = document.createElement("button");
+                    team.onclick = function() { window.location.href = `team.html?name=${existingTeams.teams[i].name}`; };
+                    team.className = "add";
+                    team.innerHTML = `<i class='fa-solid fa-futbol'></i><span class='name'>${existingTeams.teams[i].name}</span>`;
+                    container.appendChild(team);
+                }
+          }
+          //console.log(existingTeams);
+          //var data = JSON.parse(localStorage.getItem("userTeams"));
+          const add = document.createElement("button");
+          add.onclick = function() { window.location.href='add_team.html'; };
+          add.className = "add";
+          add.innerHTML = "<i class='fa-solid fa-plus'></i><span class='name'>Aggiungi nuova squadra</span>";
+          container.appendChild(add);
+      }
+      
+      document.addEventListener('DOMContentLoaded', () => load());
+  </script>  
+</body>
+</html>
