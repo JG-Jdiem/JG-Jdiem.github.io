@@ -1,1 +1,360 @@
+@font-face{
+  font-family: 'LatoBlack';
+  src: url(Lato/Lato-Black.ttf);
+}
+@font-face{
+  font-family: 'LatoBold';
+  src: url(Lato/Lato-Bold.ttf);
+}
+@font-face{
+  font-family: 'LatoRegular';
+  src: url(Lato/Lato-Regular.ttf);
+}
 
+body{
+  background-color: white;
+  padding-inline: 3vw;
+  font-family: 'LatoRegular'
+}
+
+:root{
+  --BlueLightMode: #024cc8;
+  --BlueDarkMode: #1f73ff;
+}
+
+header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h1{
+  color: black;
+  font-family: 'LatoBlack';
+  width: 50%;
+  font-size: 3vw;
+}
+a{
+  text-decoration: none;
+  color:black;
+}
+.f{
+  color: var(--BlueLightMode);
+}
+.menu {
+  display: flex;
+  width: 8vw;
+  align-items: center;
+  justify-content: space-between;
+}
+.user-teams{
+  height: 3vw;
+  width: 3vw;
+  border: 0;
+  background: url("YourTeams.png") no-repeat center;
+  background-size: contain;
+}
+
+/*Search*/
+
+.search-icon{
+  border: none;
+  height: 3vw;
+  width: 3vw;
+  background: url("Search.png") no-repeat center;
+  background-size: contain;
+  /*margin-right:3vw;*/
+}
+.search {
+  position: relative;
+}
+.search-box {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+.search-box.hidden {
+  display: none;
+}
+#searchInput {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+}
+.search-results {
+  margin-top: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.search-result-item {
+  padding: 8px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+.search-result-item:hover {
+  background: #f5f5f5;
+}
+
+/*End Search*/
+
+hr{
+  border-color: #000000;
+  border:0;
+  height: 2px;
+  background-color: #000000;
+}
+
+h2, table{
+  display: flex;
+		 align-items: center;
+		 justify-content: center;
+  /*transform: translate(-25%);*/
+  font-family: 'LatoBold';
+  font-size: 2.8vw;
+}
+select{
+  font-family: 'LatoBold';
+  /*height: 60px;*/
+  width: 60px;
+  font-size: 2.8vw;
+  font-weight: 800;
+  margin: 0;
+  margin-left: 5px;
+  border:0;
+  padding: 0;
+  background-color: transparent;
+}
+/*select :hoover{
+  ne;
+}*/
+
+.match-day {
+  margin-bottom: 30px;
+  background-color: transparent;
+  border-radius: 8px;
+  /*padding: 15px;*/
+  border: 0;
+  /*box-shadow: 0 2px 4px rgba(0,0,0,0.1);*/
+}
+.date-header {
+  background-color: #f0f0f0;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  color: #333;
+}
+.match-card {
+  border: 0;
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  border-radius: 20px;
+  /*grid-template-columns: 2fr 1fr 2fr;*/
+  align-items: center;
+  text-align: center;
+  background-color: white;
+  transition: transform 0.2s;
+  justify-content: space-between;
+  color: black;
+  text-decoration: none;
+}
+.match-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.team{
+  font-size: 2rem;
+  width: 10rem;
+}
+.home{
+  display: flex;
+  align-items: center;
+}
+.away{
+  display: flex;
+  align-items: center;
+}
+.team_home{
+  text-align: right;
+}
+.team_away{
+  text-align: left;
+}
+.logo_home{
+  width: 3rem;
+  height: 3rem;
+  /*background-color: black;*/
+  margin-inline: 20px;
+}
+.logo_away{
+  width: 3rem;
+  height: 3rem;
+  /*background-color: black;*/
+  margin-inline: 20px
+}
+.stats{
+  background-color: var(--BlueLightMode);
+  border-radius: 5rem;
+  width: 5rem;
+  height: 2.8rem;
+  text-align: center;
+  font-size: 1.5rem;
+  text-justify: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  color: white;
+}
+/*.future-match {
+  background-color: #f8f8f8;
+  border-left: 4px solid #4CAF50;
+}*/
+.score {
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 0 20px;
+}
+.future-match .score {
+  color: #999;
+}
+.match-time {
+  color: #666;
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+.status {
+  color: #888;
+  font-size: 0.8em;
+  margin-top: 5px;
+  font-weight: 500;
+}
+.controls {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.controls label {
+  margin-right: 10px;
+  color: #333;
+}
+.controls input {
+  width: 70px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+.controls button {
+  padding: 8px 15px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.controls button:hover {
+  background-color: #45a049;
+}
+
+@media (prefers-color-scheme: dark) {
+  body{
+    background-color: black;
+  }
+  h1{
+    color: white;
+  }
+  .f{
+    color: var(--BlueDarkMode);
+  }
+  hr {
+  		background-color: white;
+  }
+  h2, select{
+    color: white;
+  }
+  .stats{
+    background-color: var(--BlueDarkMode);
+  }
+  a{
+    color: white;
+  }
+  .user-teams{
+    background: url("YourTeamsDarkMode.png") no-repeat center;
+    background-size: cover;
+  }
+  .match-card {
+    background-color: black;
+    color: white
+  }
+  .match-card:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px white;
+  }
+  .search-icon{
+    background: url("SearchDarkMode.png") no-repeat center;
+    background-size: contain;
+  }
+}
+
+@media (orientation: portrait){
+  .team_home, .team_away{
+    font-size: 15px;
+    width: 75px
+  }
+  #matches-container{
+    width: 100%;
+  }
+  .stats{
+    width: 3rem;
+    height: 1.68rem;
+    font-size: 0.9rem;
+  }
+  .logo_home, .logo_away{
+    margin-inline: 5px;
+    height: 2rem;
+    width: 2rem
+  }
+  h1{
+    font-size: 8vw;
+  }
+  .menu{
+    width: 20vw;
+  }
+  .search, .search-icon, .user-teams{
+    height: 8vw;
+    width: 8vw;
+  }
+  h2, table, select{
+    font-size: 7vw;
+  }
+  select{
+    width: 13vw
+  }
+  .team{
+    font-size: 3rem;
+    width: 15rem;
+  }
+  .logo_home, .logo_away{
+    width: 4.5rem;
+    height: 4.5rem;
+    margin-inline: 28px
+  }
+  .stats{
+    width: 7.5rem;
+    height: 4.2rem;
+    font-size: 2.25rem
+  }
+}
