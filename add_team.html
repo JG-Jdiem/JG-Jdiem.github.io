@@ -210,7 +210,8 @@
         color: black;
         padding: 8px;
         cursor: pointer;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid;
+        border-color: darkgray;
       }
       .search-result-item-add:hover {
         background: #f5f5f5;
@@ -267,7 +268,7 @@
               background-color: transparent;
               display: flex;
               align-items: center;
-              justify-content: center;
+              justify-content: space-evenly;
           }
           .player{
                 justify-content: space-between;
@@ -297,16 +298,24 @@
               padding: 10px 20px;
           }
           .searchPlayers {
-              width: 60%;
+              width: 55%;
           }
           #searchInputAdd{
-              width: 100%;
+              min-width: 100%;
               margin: 0;
               font-size: 5vw;
               height: 2.5vh;
           }
           #searchInputAdd::placeholder{
               font-size: 4vw;
+          }
+          .search-result-item-add{
+              width: 100%;
+              font-size: 4vw;
+          }
+          .search-results-add{
+              max-height: 90vh;
+              height: auto
           }
       }
   </style>
@@ -337,15 +346,7 @@
             <button class="done-button" onclick="save()"><i class="fa-solid fa-check"></i>Fatto</button>
         </div>
     </div>
-        <!--<div class="name-container">
-            <input type="text" class="name-team" placeholder="Nome rosa...">
-        </div>-->
-        <!--<div class="add"><span class='plus'>+</span><br><span class='name'>
-            <input type="text" id="searchInputAdd" placeholder="Cerca un giocatore...">
-            <div id="searchResultsAdd" class="search-results-add"></div>
-        </span>
-        </div>
-        <div class="container" id="container"></div>-->
+
     <div class="players-section">
         <div class="players-header">
             <h3>Giocatori</h3>
