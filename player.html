@@ -159,79 +159,128 @@
                 }
 
                 const container = document.getElementById('player-container');
-                container.innerHTML = `
-                    <div class="player-header" style="background: linear-gradient(to right, ${player.TeamColor}, ${lightenColor(player.TeamColor, 25)});">
-                        <div class="player-info">
-                            <div class="name-team">
-                                <h3 class="player-name">${player.ParticipantName}</h3>
-                                <div class="player-team">${player.TeamName}</div>
-                                <div class="player-role">Ruolo: ${player.role}</div>
+                if(player.role != 'P'){
+                    container.innerHTML = `
+                        <div class="player-header" style="background: linear-gradient(to right, ${player.TeamColor}, ${lightenColor(player.TeamColor, 25)});">
+                            <div class="player-info">
+                                <div class="name-team">
+                                    <h3 class="player-name">${player.ParticipantName}</h3>
+                                    <div class="player-team">${player.TeamName}</div>
+                                    <div class="player-role">Ruolo: ${player.role}</div>
+                                </div>
+                                <div class="logoTeam" style="background: url(images/${player.TeamId}.png) no-repeat center; background-size: contain"></div>
                             </div>
-                            <div class="logoTeam" style="background: url(images/${player.TeamId}.png) no-repeat center; background-size: contain"></div>
                         </div>
-                    </div>
 
-                    <div class="stats-grid">
-                        <div class="stat-card highlight">
-                            <div class="stat-title">Goal Fatti</div>
-                            <div class="stat-value">${player.GF}</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-title">Assist Fatti</div>
-                            <div class="stat-value">${player.AF}</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-title">Expected Goals (xG)</div>
-                            <div class="stat-value">${player.XG.toFixed(1)}</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-title">Tiri per Partita</div>
-                            <div class="stat-value">${player.Tiri}</div>
-                        </div>
-                    </div>
-
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-title">Tiri in Porta per Partita</div>
-                            <div class="stat-value">${player.TiriInPorta}</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-title">% Contrasti Vinti</div>
-                            <div class="stat-value">${player.ContrastiVinti}%</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-title">Partite Giocate</div>
-                            <div class="stat-value">${player.MatchesPlayed}</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-title">Minuti Giocati</div>
-                            <div class="stat-value">${player.MinutesPlayed}</div>
-                        </div>
-                    </div>
-
-                    <div class="performance-section">
-                        <h2 class="performance-title">Statistiche Avanzate</h2>
                         <div class="stats-grid">
-                            <div class="stat-card">
-                                <div class="stat-title">Expected Assists (xA)</div>
-                                <div class="stat-value">${player.XA.toFixed(1)}</div>
+                            <div class="stat-card highlight">
+                                <div class="stat-title">Goal Fatti</div>
+                                <div class="stat-value">${player.GF}</div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-title">xG per 90 minuti</div>
-                                <div class="stat-value">${player.XG90.toFixed(2)}</div>
+                                <div class="stat-title">Assist Fatti</div>
+                                <div class="stat-value">${player.AF}</div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-title">Intercetti per 90'</div>
-                                <div class="stat-value">${player.Intercet90.toFixed(1)}</div>
+                                <div class="stat-title">Expected Goals (xG)</div>
+                                <div class="stat-value">${player.XG.toFixed(1)}</div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-title">PWM per 90'</div>
-                                <div class="stat-value">${player.PWM90.toFixed(1)}</div>
+                                <div class="stat-title">Tiri per Partita</div>
+                                <div class="stat-value">${player.Tiri}</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-title">Tiri in Porta per Partita</div>
+                                <div class="stat-value">${player.TiriInPorta}</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-title">% Contrasti Vinti</div>
+                                <div class="stat-value">${player.ContrastiVinti}%</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-title">Partite Giocate</div>
+                                <div class="stat-value">${player.MatchesPlayed}</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-title">Minuti Giocati</div>
+                                <div class="stat-value">${player.MinutesPlayed}</div>
                             </div>
                         </div>
-                    </div>
-                `;
 
+                        <div class="stats-grid">
+
+                        </div>
+
+                        <div class="performance-section">
+                            <h2 class="performance-title">Statistiche Avanzate</h2>
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <div class="stat-title">Expected Assists (xA)</div>
+                                    <div class="stat-value">${player.XA.toFixed(1)}</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-title">xG per 90'</div>
+                                    <div class="stat-value">${player.XG90.toFixed(2)}</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-title">Intercetti per 90'</div>
+                                    <div class="stat-value">${player.Intercet90.toFixed(1)}</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-title">PWM per 90'</div>
+                                    <div class="stat-value">${player.PWM90.toFixed(1)}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                else{
+                    container.innerHTML = `
+                        <div class="player-header" style="background: linear-gradient(to right, ${player.TeamColor}, ${lightenColor(player.TeamColor, 25)});">
+                            <div class="player-info">
+                                <div class="name-team">
+                                    <h3 class="player-name">${player.ParticipantName}</h3>
+                                    <div class="player-team">${player.TeamName}</div>
+                                    <div class="player-role">Ruolo: ${player.role}</div>
+                                </div>
+                                <div class="logoTeam" style="background: url(images/${player.TeamId}.png) no-repeat center; background-size: contain"></div>
+                            </div>
+                        </div>
+
+                        <div class="stats-grid">
+                            <div class="stat-card highlight">
+                                <div class="stat-title">Clean Sheets</div>
+                                <div class="stat-value">${player.CleanS}</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-title">Goal Concessi</div>
+                                <div class="stat-value">${player.GoalsConc}</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-title">Partite Giocate</div>
+                                <div class="stat-value">${player.MatchesPlayed}</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-title">Minuti Giocati</div>
+                                <div class="stat-value">${player.MinutesPlayed}</div>
+                            </div>
+                        </div>
+
+                        <div class="stats-grid">
+
+                        </div>
+
+                        <div class="performance-section">
+                            <h2 class="performance-title">Statistiche Avanzate</h2>
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <div class="stat-title">Save Percentage</div>
+                                    <div class="stat-value">${player.SavePercentage.toFixed(2)}%</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
             } catch (error) {
                 console.error('Errore nel caricamento dei dati:', error);
                 document.getElementById('player-container').innerHTML = `
