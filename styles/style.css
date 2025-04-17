@@ -121,7 +121,6 @@ h2, table{
 select{
   font-family: 'LatoBold';
   /*height: 60px;*/
-  width: 60px;
   font-size: 2.8vw;
   font-weight: 800;
   margin: 0;
@@ -129,6 +128,7 @@ select{
   border:0;
   padding: 0;
   background-color: transparent;
+  width: auto;
 }
 /*select :hoover{
   ne;
@@ -150,7 +150,11 @@ select{
   font-weight: bold;
   color: #333;
 }
+#matches-container{
+  width: 100%;
+}
 .match-card {
+  max-width: 100%;
   border: 0;
   padding: 15px;
   margin-bottom: 10px;
@@ -317,6 +321,11 @@ select{
   #matches-container{
     width: 100%;
   }
+  .match-card{
+    padding-inline: 1vw;
+    padding-block: 1vh;
+    border-radius: 10px;
+  }
   .stats{
     width: 3rem;
     height: 1.68rem;
@@ -337,24 +346,28 @@ select{
     height: 8vw;
     width: 8vw;
   }
+  hr{
+    height: 1px;
+  }
+  
   h2, table, select{
-    font-size: 7vw;
+    font-size: 8vw;
   }
   select{
-    width: 13vw
+    width: auto
   }
   .team{
-    font-size: 3rem;
-    width: 15rem;
+    font-size: 5vw;
+    width: 24vw;
   }
   .logo_home, .logo_away{
-    width: 4.5rem;
-    height: 4.5rem;
-    margin-inline: 28px
+    width: 7vw;
+    height: 7vw;
+    margin-inline: 2vw
   }
   .stats{
-    width: 7.5rem;
-    height: 4.2rem;
-    font-size: 2.25rem
+    min-width: 12vw;
+    height: 7vw;
+    font-size: 4vw
   }
 }
