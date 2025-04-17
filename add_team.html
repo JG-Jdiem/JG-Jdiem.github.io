@@ -4,11 +4,13 @@
 <head>
   <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
   <meta name = "theme-color" content="#000000">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
   <title>FantaStats | Formazioni</title>
   <style>
       :root {
+          --portieri: #f7aa0f;
           --difensori: #5ac20a;
           --centrocampisti: #2363e4;
           --attaccanti: #f10f32;
@@ -105,6 +107,9 @@
           text-align: center;
           align-content: center;
           color: white;
+      }
+      .P{
+          background-color: var(--portieri);
       }
       .D{
           background-color: var(--difensori);
@@ -217,6 +222,9 @@
         background: #f5f5f5;
         color: black;
       }
+      .hidden{
+          display: none
+      }
       @media(prefers-color-scheme: dark){
           /*.add{
               background-color: black;
@@ -272,7 +280,7 @@
           }
           .player{
                 justify-content: space-between;
-              padding: 2rem;
+              padding: 5vw;
               border-radius: 3rem;
               margin-block: 0.5vh;
           }
@@ -295,7 +303,7 @@
          .done-button{
               font-size: 4vw;
               border-radius: 40px;
-              padding: 10px 20px;
+              padding: 2vw 4vw;
           }
           .searchPlayers {
               width: 55%;
@@ -359,16 +367,28 @@
     </div>
   <script src="script.js"></script>
   <script>
-
-      function load(){
+      async function load(){
           //localStorage.removeItem("teams");
           teams.teams = [];
           console.log(teams);
           teams = JSON.parse(localStorage.getItem("teams"));
           console.log(teams);
+          // Qui dovrai caricare il tuo file JSON con i giocatori
+          const response = await fetch('data.json'); // Assicurati di avere questo file
+          players = await response.json();
+          const urlParams = new URLSearchParams(window.location.search);
+          searchPlayers = document.querySelector('.searchPlayers');
+          if(urlParams.get('id')!=null){
+            id = urlParams.get('id');
+            document.querySelector(".name-input").value = teams.teams[id].name;
+            for(let i=0; i<teams.teams[id].player.length; i++){
+                addPlayer(teams.teams[id].player[i].id, players)
+            }
+          }
       }
 
       document.addEventListener('DOMContentLoaded', () => load());
+      
       var newTeam = {
           name: "",
           player: []
@@ -378,6 +398,8 @@
           teams: []
       }
 
+      let players, id = null;
+
       function removePlayer(playerId){
             const player = document.querySelector(`[class*="${playerId}"]`);
             const indiceGiocatore = newTeam.player.findIndex(x => x.id === playerId);
@@ -386,6 +408,9 @@
             }
             if (player) {
               player.remove();
+            }
+            if(newTeam.player.length < 25){
+              searchPlayers.classList.remove('hidden');
             }
             console.log(newTeam);
             return 0;
@@ -412,17 +437,24 @@
                   teams: []
               };
 
-          teams.teams.push(newTeam);
+          //console.log(id);
+          //console.log(teams);
+          if(id==null)
+              teams.teams.push(newTeam);
+          else
+              teams.teams[id] = newTeam;
+          //console.log(teams);
           localStorage.setItem("teams", JSON.stringify(teams));
           console.log(JSON.stringify(teams));
           window.location.href = "teams.html";
       }
 
-    document.addEventListener('DOMContentLoaded', () => {
-          const searchInputAdd = document.getElementById('searchInputAdd');
-          const searchResultsAdd = document.getElementById('searchResultsAdd');
-          const add = document.querySelector('.add');
-          const header = document.querySelector('.team_header');
+    /*document.addEventListener('DOMContentLoaded', () => {*/
+          let searchPlayers;
+          let searchInputAdd = document.getElementById('searchInputAdd');
+          let searchResultsAdd = document.getElementById('searchResultsAdd');
+          let add = document.querySelector('.add');
+          let header = document.querySelector('.team_header');
 
           function addPlayer(playerId, players){
             /*var data = JSON.parse(localStorage.getItem("userTeams"));*/
@@ -444,8 +476,9 @@
                 id: playerId
             };
             newTeam.player.push(newPlayer);
-            if(newTeam.player.length == 25){
-                add.classList.add('hidden');
+            if(newTeam.player.length >= 25){
+                searchPlayers.classList.add('hidden');
+                console.log(searchPlayers.classList);
             }
             console.log(newTeam);
             return 0;
@@ -459,10 +492,6 @@
               }
 
               try {
-                  // Qui dovrai caricare il tuo file JSON con i giocatori
-                  const response = await fetch('data.json'); // Assicurati di avere questo file
-                  const players = await response.json();
-
                   const filteredPlayers = players.filter(player => 
                       player.ParticipantName.toLowerCase().includes(searchTerm)
                   );
@@ -491,7 +520,8 @@
                   searchResultsAdd.innerHTML = '<div class="error">Errore nel caricamento dei giocatori</div>';
               }
           });
-      });
+     /* });*/    
+      
   </script>  
 </body>
 </html>
