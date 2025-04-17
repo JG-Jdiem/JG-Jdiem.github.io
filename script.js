@@ -99,10 +99,20 @@ function calc(player, squadraCasa, squadraTrasferta, gfgs){
         //console.log(`${gfgs[i].id}   ${squadraTrasferta}`);
     }
     debolezzaDifensiva = (gfgs.filter(x => x.id == squadraTrasferta).map(x => x.GS90))/mediaxG;
-    console.log(`${gfgs.filter(x => x.id == squadraTrasferta).map(x => x.GS90)}/${mediaxG}`)
+    console.log(`${gfgs.filter(x => x.id == squadraTrasferta).map(x => x.GS90)}/${mediaxG}`);
 
     console.log(player);
-    console.log(`${player.Tiri}*${player.MinutesPlayed}/90+1`)
+
+    if(player.role == 'P'){
+        let DifStab = gfgs.filter(x => x.id == squadraCasa).map(x => x.GS90)/mediaxG; /* Stabilità difensiva */
+        let OffAvv = gfgs.filter(x => x.id == squadraTrasferta).map(x => x.GF90)/mediaxG; /* Forza offensiva avversari */
+        console.log("--"+DifStab);
+        console.log("--"+OffAvv);
+        let probCS = (2*(player.CleanS/player.MatchesPlayed) + 1*(player.SavePercentage) + 1*DifStab - 1*OffAvv)/5;
+        return Math.round(probCS * 100) / 100;
+    }
+    
+    console.log(`${player.Tiri}*${player.MinutesPlayed}/90+1`);
     let tt = Math.floor((player.Tiri * (player.MinutesPlayed / 90)) + 1);
     let ts = Math.floor((player.TiriInPorta * (player.MinutesPlayed / 90)) + 1);
     let precisione = ts / tt;
@@ -151,7 +161,7 @@ function raggruppaPerId(giocatori) {
 // Funzione per convertire i codici ruolo
 function convertiRuolo(ruolo) {
     const ruoli = {
-        /*'P': 'portieri',*/
+        'P': 'portieri',
         'D': 'difensori',
         'C': 'centrocampisti',
         'A': 'attaccanti'
