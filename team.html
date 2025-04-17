@@ -4,11 +4,13 @@
 <head>
   <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
   <meta name = "theme-color" content="#000000">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
   <title>FantaStats | Formazioni</title>
   <style>
       :root {
+          --portieri: #f7aa0f;
           --difensori: #5ac20a;
           --centrocampisti: #2363e4;
           --attaccanti: #f10f32;
@@ -41,13 +43,18 @@
           justify-content: center;
           background-color: transparent;
       }
-        .fa-trash{
+        .fa-trash, .fa-pen{
             position: absolute;
           color: white;
             background-color: transparent;
             border: 0;
-            right: 10%;
         }
+      .fa-trash{
+          left: 10%;
+      }
+      .fa-pen{
+          right: 10%;
+      }
       /*.name{
           font-size: 2rem;
       }*/
@@ -98,6 +105,9 @@
           align-content: center;
           color: white;
       }
+      .P{
+          background-color: var(--portieri);
+      }
       .D{
           background-color: var(--difensori);
       }
@@ -139,8 +149,9 @@
           background-color: green;
           text-align: center;
           align-content: center;
-          border-radius: 1rem;
-          aspect-ratio: 1;
+          aspect-ratio: 0;
+          padding: 1vw;
+          border-radius: 2rem;
           color: white;
       }
       /*.plus{
@@ -148,7 +159,7 @@
           height: 100%;
           display: flex;
       }*/
-      h3, .fa-trash{
+      h3, .fa-trash, .fa-pen{
           font-size: 2.6vw;
       }
       .module{
@@ -187,7 +198,7 @@
           .players-header{
               color: white
           }
-          .fa-trash{
+          .fa-trash, .fa-pen{
               color: white
           }
           .player:hover{
@@ -209,12 +220,11 @@
           }
           .player{
                 justify-content: space-between;
-              padding: 10px;
-              padding-block: 24px;
+              padding: 3vw;
               border-radius: 3rem;
               margin-block: 0.5vh;
           }
-          .name_player, .role, .fa-trash, .stat{
+          .name_player, .role, .fa-trash, .fa-pen, .stat{
               font-size: 4vw;
               align-content: center;
           }
@@ -242,7 +252,7 @@
               text-align: center;
               align-content: center;
           }
-          h3, .fa-trash{
+          h3, .fa-trash, .fa-pen{
               font-size: 6vw;
           }
       }
@@ -312,7 +322,7 @@
           container.innerHTML = '';
           const teamName = document.createElement("div");
           teamName.className = "team-info";
-          teamName.innerHTML = `<h3 class="name-container">${team.name}</h3><button class="fa-solid fa-trash" onclick="removeTeam(${index})"></button>`;
+          teamName.innerHTML = `<h3 class="name-container">${team.name}</h3><button class="fa-solid fa-pen" onclick="editTeam(${index})"></button><button class="fa-solid fa-trash" onclick="removeTeam(${index})"></button>`;
           container.appendChild(teamName);
 
           const module = document.getElementById("module");
@@ -398,6 +408,14 @@
       function loadLineUp(nD, nC, nA){
            const container = document.getElementById("container");
           container.innerHTML = '';
+          
+          const player = document.createElement("div");
+          const role = team.player.portieri[0].role;
+          const stat = team.player.portieri[0].stat;
+          player.className = `player ${team.player.portieri[0].id}`;
+          player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == team.player.portieri[0].id).map(x => x.ParticipantName)}</div><div class="stat")">${stat}%</div></div>`;
+          container.appendChild(player);
+          
           for(let i=0; i<team.player.difensori.length && i<nD; i++){
                 const player = document.createElement("div");
                 const role = team.player.difensori[i].role;
@@ -424,6 +442,14 @@
             }
           const containerR = document.getElementById("containerReplacements");
           containerR.innerHTML = '';
+          for(let i=1; i<team.player.portieri.length; i++){
+              const player = document.createElement("div");
+              const role = team.player.portieri[i].role;
+              const stat = team.player.portieri[i].stat;
+              player.className = `player ${team.player.portieri[i].id}`;
+              player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == team.player.portieri[i].id).map(x => x.ParticipantName)}</div><div class="stat")">${stat}%</div></div>`;
+              containerR.appendChild(player);
+          }
           for(let i=nD; i<team.player.difensori.length; i++){
               const player = document.createElement("div");
               const role = team.player.difensori[i].role;
@@ -507,6 +533,10 @@
           data.teams.splice(index, 1);
           localStorage.setItem("teams", JSON.stringify(data));
           window.location.href = "teams.html";
+      }
+
+      function editTeam(index){
+          window.location.href = `add_team.html?id=${index}`;
       }
       
   </script>  
