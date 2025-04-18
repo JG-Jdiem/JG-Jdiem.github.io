@@ -313,9 +313,31 @@
           const data = JSON.parse(localStorage.getItem("teams"));
           //console.log(data);
           const urlParams = new URLSearchParams(window.location.search);
-          const name = urlParams.get('name');
+          let name;
+          name = urlParams.get('name');
+
           //console.log(name);
+
+          if(name == null){
+              const container = document.querySelector(".team-header");
+              container.innerHTML = '';
+              const teamName = document.createElement("div");
+              teamName.className = "team-info";
+              teamName.innerHTML = `<h3 class="name-container" style="color: red">⚠Bad Request⚠</h3>`;
+              container.appendChild(teamName);
+              return;
+          }          
+          
           const index = data.teams.findIndex(x => x.name == name);
+          if(index == -1){
+              const container = document.querySelector(".team-header");
+              container.innerHTML = '';
+              const teamName = document.createElement("div");
+              teamName.className = "team-info";
+              teamName.innerHTML = `<h3 class="name-container" style="color: red">⚠Squadra Mancante⚠</h3>`;
+              container.appendChild(teamName);
+              return;
+          }         
           team = data.teams[index];
           //console.log(team);
           const container = document.querySelector(".team-header");
