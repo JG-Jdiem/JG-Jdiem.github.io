@@ -339,7 +339,7 @@
               for(let i=0; i<data.teams.length; i++){
                   teamName.innerHTML += `<br><h3 class="name-container" onclick="window.location.href='team.html?name=${data.teams[i].name}'">${data.teams[i].name} -> ${data.teams[i].player.length} giocatori</h3>`;
               }
-              //container.appendChild(teamName);
+              container.appendChild(teamName);
               return;
           }         
           team = data.teams[index];
