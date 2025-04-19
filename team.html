@@ -329,13 +329,17 @@
           }          
           
           const index = data.teams.findIndex(x => x.name == name);
+          //console.log(data.teams);
           if(index == -1){
               const container = document.querySelector(".team-header");
               container.innerHTML = '';
               const teamName = document.createElement("div");
               teamName.className = "team-info";
-              teamName.innerHTML = `<h3 class="name-container" style="color: red">⚠Squadra Mancante⚠</h3>`;
-              container.appendChild(teamName);
+              teamName.innerHTML = `<h3 class="name-container" style="color: gold">⚠Squadra "${name}" mancante⚠<br></h3><h3 class="name-container">Squadre create: ${data.teams.length}</h3>`;
+              for(let i=0; i<data.teams.length; i++){
+                  teamName.innerHTML += `<br><h3 class="name-container" onclick="window.location.href='team.html?name=${data.teams[i].name}'">${data.teams[i].name} -> ${data.teams[i].player.length} giocatori</h3>`;
+              }
+              //container.appendChild(teamName);
               return;
           }         
           team = data.teams[index];
