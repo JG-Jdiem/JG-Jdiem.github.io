@@ -1,1 +1,1 @@
-# JG-Jdiem.github.io
+# FantaStats
