@@ -174,19 +174,19 @@
         }
     }
 
-      function setCurrentDayInSelect(day) {
-          const daySelect = document.getElementById('daySelect');
-          // Calcola il valore per l'opzione nella select basato sul giorno
-          const optionValue = (day < 10) ? "0" + day : day;
-          console.log(optionValue);
-          // Imposta l'opzione selezionata
-          for(let i = 0; i < daySelect.options.length; i++) {
-              if(daySelect.options[i].value == optionValue) {
-                  daySelect.selectedIndex = i;
-                  break;
-              }
-          }
-      }
+    function setCurrentDayInSelect(day) {
+        const daySelect = document.getElementById('daySelect');
+        // Calcola il valore per l'opzione nella select basato sul giorno
+        const optionValue = (day < 10) ? "0" + day : day;
+        console.log(optionValue);
+        // Imposta l'opzione selezionata
+        for(let i = 0; i < daySelect.options.length; i++) {
+            if(daySelect.options[i].value == optionValue) {
+                daySelect.selectedIndex = i;
+                break;
+            }
+        }
+    }
     
     async function displayMatches(start = 1, end = 10) {
         try {

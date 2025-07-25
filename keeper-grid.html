@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+    <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name = "theme-color" content="#000000">
+    <link rel="stylesheet" href="styles/style.css"/>
+    <title>FantaStats</title>
+</head>
+<style>
+    .days{
+        display: flex;
+        gap:5px;
+    }
+    .title{
+        align-content: top;
+        text-align: center;
+    }
+    .day{
+        width: 32px;
+        min-width: 32px;
+        aspect-ratio: 1;
+        background-color: gray;
+        border-radius: 8px;
+        align-content: center;
+        text-align: center;
+    }
+    .selection{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    select, .title{
+        width: 169px;
+        min-width: 169px;
+        height: 32px;
+        min-height: 32px;
+        border-radius: 8px;
+    }
+</style>
+<body>
+    <header>
+        <h1>
+            <a href="index">
+                <span class="f">F</span><span>antaStats</span>
+            </a>
+        </h1>
+        <div class="menu">
+            <button class="user-teams" onclick="window.location.href='teams.html'"></button>
+            <div class="search">
+                <button class="search-icon"></button>
+                <div class="search-box hidden">
+                    <input type="text" id="searchInput" placeholder="Cerca un giocatore...">
+                    <div id="searchResults" class="search-results"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <hr>
+    <h2>Abbinamento Portieri</h2>
+    <div class="days">
+        <div class="title">Abbinamento</div>
+    </div>
+    <div class="selection">
+        <select class="keeper">
+            <option value="" selected>Seleziona</option>
+        </select>
+        <select class="keeper">
+            <option value="" selected>Seleziona</option>
+        </select>
+        <select class="keeper">
+            <option value="" selected>Seleziona</option>
+        </select>
+    </div>
+
+
+
+</body>
+<script src="script.js"></script>  
+<script>
+    let allMatches = [];
+    let allTeams = [];
+
+    document.addEventListener("DOMContentLoaded", () => firstLoad());
+    async function firstLoad(){
+        try {
+            if (allMatches.length === 0) {
+                const response = await fetch('calendario.json');
+                allMatches = await response.json();
+                const days = document.querySelector('.days');
+                for(let i=0; i<38; i++){
+                    days.innerHTML += `
+                        <div class="day">${i+1}</div>
+                    `;
+                }
+            }
+            if (allTeams.length === 0) {
+                const response = await fetch('GFGS.json');
+                const gfgs = await response.json();
+                allTeams = gfgs.map(x => x.name);
+                allTeams.sort((a, b) => a.localeCompare(b));
+                console.log(document.querySelectorAll('.keeper'));
+                document.querySelectorAll('.keeper').forEach(select => 
+                    select.innerHTML += allTeams.map(team => `
+                        <option value="${team}">${team}</option>
+                    `).join('')
+                );
+            }
+        } catch (error) {
+            console.error('Errore nel caricamento delle partite:', error);
+            container.innerHTML = '<div class="error">Errore nel caricamento delle partite. Verifica che il file calendario.json sia presente e corretto.</div>';
+        }
+    }
+
+
+
+</script>
+</html>
