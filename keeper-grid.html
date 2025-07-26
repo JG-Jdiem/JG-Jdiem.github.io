@@ -9,15 +9,19 @@
     <title>FantaStats</title>
 </head>
 <style>
+    .grid{
+        overflow-y: hidden;
+    }
     .days{
         display: flex;
         gap:5px;
+        margin-bottom: 10px;
     }
     .title{
         align-content: top;
         text-align: center;
     }
-    .day{
+    .day, .logo{
         width: 32px;
         min-width: 32px;
         aspect-ratio: 1;
@@ -25,6 +29,9 @@
         border-radius: 8px;
         align-content: center;
         text-align: center;
+    }
+    .keepers{
+        display: flex;
     }
     .selection{
         display: flex;
@@ -37,6 +44,25 @@
         height: 32px;
         min-height: 32px;
         border-radius: 8px;
+    }
+    .matches{
+        display: flex;
+        flex-direction: column;
+        gap: 10px
+    }
+    .match1, .match2, .match3{
+        height: 32px;
+        width: auto;
+        gap: 5px;
+        display: flex;
+        margin-left: 5px;
+    }
+    .logo{
+        display: flex;
+    }
+    img{
+        margin-block: auto;
+        margin-inline: auto;
     }
 </style>
 <body>
@@ -59,21 +85,29 @@
     </header>
     <hr>
     <h2>Abbinamento Portieri</h2>
-    <div class="days">
-        <div class="title">Abbinamento</div>
+    <div class="grid">
+        <div class="days">
+            <div class="title">Abbinamento</div>
+        </div>
+        <div class="keepers">
+            <div class="selection">
+                <select class="keeper select1">
+                    <option value="seleziona" selected>Seleziona</option>
+                </select>
+                <select class="keeper select2">
+                    <option value="seleziona" selected>Seleziona</option>
+                </select>
+                <select class="keeper select3">
+                    <option value="seleziona" selected>Seleziona</option>
+                </select>
+            </div>
+            <div class="matches">
+                <div class="match1"></div>
+                <div class="match2"></div>
+                <div class="match3"></div>
+            </div>
+        </div>
     </div>
-    <div class="selection">
-        <select class="keeper">
-            <option value="" selected>Seleziona</option>
-        </select>
-        <select class="keeper">
-            <option value="" selected>Seleziona</option>
-        </select>
-        <select class="keeper">
-            <option value="" selected>Seleziona</option>
-        </select>
-    </div>
-
 
 
 </body>
@@ -101,11 +135,15 @@
                 allTeams = gfgs.map(x => x.name);
                 allTeams.sort((a, b) => a.localeCompare(b));
                 console.log(document.querySelectorAll('.keeper'));
-                document.querySelectorAll('.keeper').forEach(select => 
+                document.querySelectorAll('.keeper').forEach(select => {
                     select.innerHTML += allTeams.map(team => `
                         <option value="${team}">${team}</option>
-                    `).join('')
-                );
+                    `).join('');
+                    select.addEventListener('change', function(e) {
+                        console.log('Classe del select:', this.className);
+                        modifyKeeper(this.className);
+                    });
+                });
             }
         } catch (error) {
             console.error('Errore nel caricamento delle partite:', error);
@@ -113,7 +151,29 @@
         }
     }
 
-
+    let keepers = {
+        1 : 'seleziona',
+        2 : 'seleziona',
+        3 : 'seleziona'
+    };
+    function modifyKeeper(className){
+        className = className.replace('keeper ', '');
+        let value = document.querySelector(`.${className}`).value;
+        className = className.replace('select', '');
+        parseInt(className);
+        keepers[className] = value;
+        let matchDiv = document.querySelector(`.match${className}`);
+        matchDiv.innerHTML = '';
+        if(keepers[className] == 'seleziona') return;
+        for(let j=0; j<allMatches.length; j++){
+            if(keepers[className] == allMatches[j].home.name){
+                matchDiv.innerHTML += `<div class="logo"><img src="images/${allMatches[j].away.id}.png" height="23" width="23"></div>`
+            }
+            else if(keepers[className] == allMatches[j].away.name){
+                matchDiv.innerHTML += `<div class="logo"><img src="images/${allMatches[j].home.id}.png" height="23" width="23"></div>`
+            }
+        }
+    }
 
 </script>
 </html>
