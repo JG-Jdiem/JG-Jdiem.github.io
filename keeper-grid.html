@@ -37,6 +37,8 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
+        width: 169px;
+        height: 121px;
     }
     select, .title{
         width: 169px;
@@ -114,7 +116,9 @@
 <script src="script.js"></script>  
 <script>
     let allMatches = [];
+    let gfgs = [];
     let allTeams = [];
+    let difficolta = Array(38).fill('H');
 
     document.addEventListener("DOMContentLoaded", () => firstLoad());
     async function firstLoad(){
@@ -131,7 +135,8 @@
             }
             if (allTeams.length === 0) {
                 const response = await fetch('GFGS.json');
-                const gfgs = await response.json();
+                const _gfgs = await response.json();
+                gfgs = _gfgs
                 allTeams = gfgs.map(x => x.name);
                 allTeams.sort((a, b) => a.localeCompare(b));
                 console.log(document.querySelectorAll('.keeper'));
@@ -156,7 +161,7 @@
         2 : 'seleziona',
         3 : 'seleziona'
     };
-    function modifyKeeper(className){
+    async function modifyKeeper(className){
         className = className.replace('keeper ', '');
         let value = document.querySelector(`.${className}`).value;
         className = className.replace('select', '');
@@ -165,13 +170,41 @@
         let matchDiv = document.querySelector(`.match${className}`);
         matchDiv.innerHTML = '';
         if(keepers[className] == 'seleziona') return;
-        for(let j=0; j<allMatches.length; j++){
+        let day = 0;
+        for(let j=0; j<allMatches.length; j++){        
             if(keepers[className] == allMatches[j].home.name){
-                matchDiv.innerHTML += `<div class="logo"><img src="images/${allMatches[j].away.id}.png" height="23" width="23"></div>`
+                const defQual = gfgs.filter(x => x.id == allMatches[j].away.id).map(x => x.attackQuality);
+                matchDiv.innerHTML += `<div class="logo" style="background-color: ${(defQual <= 3)?'green':(defQual < 4.5)?'orange':'red'}"><img src="images/${allMatches[j].away.id}.png" height="23" width="23"></div>`     
             }
             else if(keepers[className] == allMatches[j].away.name){
-                matchDiv.innerHTML += `<div class="logo"><img src="images/${allMatches[j].home.id}.png" height="23" width="23"></div>`
+                const defQual = gfgs.filter(x => x.id == allMatches[j].home.id).map(x => x.attackQuality)
+                matchDiv.innerHTML += `<div class="logo" style="background-color: ${(defQual <= 3)?'green':(defQual < 4.5)?'orange':'red'}"><img src="images/${allMatches[j].home.id}.png" height="23" width="23"></div>`            
             }
+        }
+        await recalc();
+        let sum = difficolta.reduce((_sum, x) => _sum + ((x == 'E') ? 1 : (x == 'M') ? 0.5 : 0), 0)
+        console.log(sum);
+        let difPerc = 100 * sum / 38;
+        console.log(difPerc);
+        document.querySelector('.grid').innerHTML += '<div>'+difPerc+'</div>';
+    }
+    function recalc(){
+        difficolta = Array(38).fill('H');
+        for(let i=0; i<allMatches.length; i++){
+            if(keepers.contains(allMatches[i].home.name)){
+                const defQual = gfgs.filter(x => x.id == allMatches[i].away.id).map(x => x.attackQuality);
+                if(difficolta[parseInt(i/10)] == 'H' && defQual <= 4)
+                    difficolta[parseInt(i/10)] = (defQual <= 3) ? 'E' : 'M';
+                if(difficolta[parseInt(i/10)] == 'M' && defQual <= 3)
+                    difficolta[parseInt(i/10)] = 'E';                    
+            } 
+            if(keepers.contains(allMatches[i].away.name)){
+                const defQual = gfgs.filter(x => x.id == allMatches[i].home.id).map(x => x.attackQuality);
+                if(difficolta[parseInt(i/10)] == 'H' && defQual <= 4)
+                    difficolta[parseInt(i/10)] = (defQual <= 3) ? 'E' : 'M';
+                if(difficolta[parseInt(i/10)] == 'M' && defQual <= 3)
+                    difficolta[parseInt(i/10)] = 'E';                    
+            } 
         }
     }
 

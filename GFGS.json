@@ -8,7 +8,9 @@
         "GS": 0,
         "GS90": 0.0,
         "PG": 0,
-        "xG": 0.0
+        "xG": 0.0,
+        "defenseQuality": 4.5,
+        "attackQuality": 4.5
     },
     {
         "id": 8524,
@@ -19,7 +21,9 @@
         "GS": 0,
         "GS90": 0.0,
         "PG": 0,
-        "xG": 0.0
+        "xG": 0.0,
+        "defenseQuality": 4.5,
+        "attackQuality": 5
     },
     {
         "id": 9857,
@@ -30,7 +34,9 @@
         "GS": 0,
         "GS90": 0.0,
         "PG": 0,
-        "xG": 0.0
+        "xG": 0.0,
+        "defenseQuality": 3.5,
+        "attackQuality": 4
     },
     {
         "id": 8529,
@@ -41,7 +47,9 @@
         "GS": 0,
         "GS90": 0.0,
         "PG": 0,
-        "xG": 0.0
+        "xG": 0.0,
+        "defenseQuality": 2.5,
+        "attackQuality": 2.5
     },
     {
         "id": 10171,
@@ -52,7 +60,9 @@
         "GS": 0,
         "GS90": 0.0,
         "PG": 0,
-        "xG": 0.0
+        "xG": 0.0,
+        "defenseQuality": 2.5,
+        "attackQuality": 3.5
     },
     {
         "id": 7801,
@@ -63,7 +73,9 @@
         "GS": 0,
         "GS90": 0.0,
         "PG": 0,
-        "xG": 0.0
+        "xG": 0.0,
+        "defenseQuality": 2.5,
+        "attackQuality": 2
     },
     {
         "id": 8535,
@@ -74,7 +86,9 @@
         "GS": 0,
         "GS90": 0.0,
         "PG": 0,
-        "xG": 0.0
+        "xG": 0.0,
+        "defenseQuality": 4,
+        "attackQuality": 4
     },
     {
         "id": 10233,
@@ -85,7 +99,9 @@
         "GS": 0,
         "GS90": 0.0,
         "PG": 0,
-        "xG": 0.0
+        "xG": 0.0,
+        "defenseQuality": 3,
+        "attackQuality": 2.5
     },
     {
         "id": 9876,
@@ -96,7 +112,9 @@
         "GS": 0,
         "GS90": 0.0,
         "PG": 0,
-        "xG": 0.0
+        "xG": 0.0,
+        "defenseQuality": 2,
+        "attackQuality": 2
     },
     {
         "id": 8636,
@@ -107,7 +125,9 @@
         "GS": 0,
         "GS90": 0.0,
         "PG": 0,
-        "xG": 0.0
+        "xG": 0.0,
+        "defenseQuality": 5,
+        "attackQuality": 5
     },
     {
         "id": 9885,
@@ -118,7 +138,9 @@
         "GS": 0,
         "GS90": 0.0,
         "PG": 0,
-        "xG": 0.0
+        "xG": 0.0,
+        "defenseQuality": 5,
+        "attackQuality": 4.5
     },
     {
         "id": 8543,
@@ -129,7 +151,9 @@
         "GS": 0,
         "GS90": 0.0,
         "PG": 0,
-        "xG": 0.0
+        "xG": 0.0,
+        "defenseQuality": 3.5,
+        "attackQuality": 4
     },
     {
         "id": 9888,
@@ -140,7 +164,9 @@
         "GS": 0,
         "GS90": 0.0,
         "PG": 0,
-        "xG": 0.0
+        "xG": 0.0,
+        "defenseQuality": 2.5,
+        "attackQuality": 2
     },
     {
         "id": 10167,
@@ -151,7 +177,9 @@
         "GS": 0,
         "GS90": 0.0,
         "PG": 0,
-        "xG": 0.0
+        "xG": 0.0,
+        "defenseQuality": 2,
+        "attackQuality": 2.5
     },
     {
         "id": 6479,
@@ -162,7 +190,9 @@
         "GS": 0,
         "GS90": 0.0,
         "PG": 0,
-        "xG": 0.0
+        "xG": 0.0,
+        "defenseQuality": 2.5,
+        "attackQuality": 2.5
     },
     {
         "id": 8686,
@@ -173,7 +203,9 @@
         "GS": 0,
         "GS90": 0.0,
         "PG": 0,
-        "xG": 0.0
+        "xG": 0.0,
+        "defenseQuality": 4.5,
+        "attackQuality": 4.5
     },
     {
         "id": 9875,
@@ -184,7 +216,9 @@
         "GS": 0,
         "GS90": 0.0,
         "PG": 0,
-        "xG": 0.0
+        "xG": 0.0,
+        "defenseQuality": 5,
+        "attackQuality": 4.5
     },
     {
         "id": 7943,
@@ -195,7 +229,9 @@
         "GS": 0,
         "GS90": 0.0,
         "PG": 0,
-        "xG": 0.0
+        "xG": 0.0,
+        "defenseQuality": 2.5,
+        "attackQuality": 3
     },
     {
         "id": 9804,
@@ -206,7 +242,9 @@
         "GS": 0,
         "GS90": 0.0,
         "PG": 0,
-        "xG": 0.0
+        "xG": 0.0,
+        "defenseQuality": 3.5,
+        "attackQuality": 3
     },
     {
         "id": 8600,
@@ -217,6 +255,8 @@
         "GS": 0,
         "GS90": 0.0,
         "PG": 0,
-        "xG": 0.0
+        "xG": 0.0,
+        "defenseQuality": 2.5,
+        "attackQuality": 2.5
     }
 ]
