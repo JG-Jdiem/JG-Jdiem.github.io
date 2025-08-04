@@ -52,7 +52,7 @@
         flex-direction: column;
         gap: 10px
     }
-    .match1, .match2, .match3{
+    .match0, .match1, .match2{
         height: 32px;
         width: auto;
         gap: 5px;
@@ -65,6 +65,61 @@
     img{
         margin-block: auto;
         margin-inline: auto;
+    }
+    .result{
+        margin-top: 5vh;
+        margin-inline: auto;
+        width: 80%;
+        display: flex;
+        justify-content: space-around;
+        border-radius: 20px;
+        transition: transform 0.2s;
+        padding-block: 2vh;
+        padding-inline: 1vw;
+    }
+    .result:hover{
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .value{
+        width: auto;
+    }
+    .summary{
+        display: flex;
+        justify-content: space-between;
+        gap: 2vw
+    }
+    .easy, .medium, .hard{
+        display: flex;
+        flex-direction: column;
+    }
+    .days{
+        margin-inline: auto;
+    }
+    @media(orientation: portrait){
+        .result{
+            width: 80%;
+            justify-content: space-between;
+            flex-direction: column;
+        }
+        .value, .days{
+            margin-inline: auto;
+        }
+        .value{
+            margin-bottom: 2vh;
+        }
+        .summary{
+            gap: 2vw
+        }
+        .text{
+            text-align: center;
+        }
+    }
+    @media(prefers-color-scheme: dark){
+        .result:hover{
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px white;
+        }
     }
 </style>
 <body>
@@ -93,20 +148,37 @@
         </div>
         <div class="keepers">
             <div class="selection">
+                <select class="keeper select0">
+
+                </select>
                 <select class="keeper select1">
-                    <option value="seleziona" selected>Seleziona</option>
+
                 </select>
                 <select class="keeper select2">
-                    <option value="seleziona" selected>Seleziona</option>
-                </select>
-                <select class="keeper select3">
-                    <option value="seleziona" selected>Seleziona</option>
+
                 </select>
             </div>
             <div class="matches">
+                <div class="match0"></div>
                 <div class="match1"></div>
                 <div class="match2"></div>
-                <div class="match3"></div>
+            </div>
+        </div>
+    </div>
+    <div class="result">
+        <div class="value">0/100</div>
+        <div class="summary">
+            <div class="easy">
+                <div class="days">0</div>
+                <div class="text">Giornate Facili</div>
+            </div>
+            <div class="medium">
+                <div class="days">0</div>
+                <div class="text">Giornate Medie</div>
+            </div>
+            <div class="hard">
+                <div class="days">0</div>
+                <div class="text">Giornate Difficili</div>
             </div>
         </div>
     </div>
@@ -141,6 +213,13 @@
                 allTeams.sort((a, b) => a.localeCompare(b));
                 console.log(document.querySelectorAll('.keeper'));
                 document.querySelectorAll('.keeper').forEach(select => {
+                    select.innerHTML += `<option value="seleziona" selected>Seleziona</option>`
+                    select.addEventListener('change', function(e) {
+                        console.log('Classe del select:', this.className);
+                        modifyKeeper(this.className);
+                    });
+                });
+                document.querySelectorAll('.keeper').forEach(select => {
                     select.innerHTML += allTeams.map(team => `
                         <option value="${team}">${team}</option>
                     `).join('');
@@ -156,12 +235,13 @@
         }
     }
 
-    let keepers = {
-        1 : 'seleziona',
-        2 : 'seleziona',
-        3 : 'seleziona'
-    };
+    let keepers = [
+        'seleziona',
+        'seleziona',
+        'seleziona'
+    ];
     async function modifyKeeper(className){
+        console.log(keepers);
         className = className.replace('keeper ', '');
         let value = document.querySelector(`.${className}`).value;
         className = className.replace('select', '');
@@ -169,7 +249,6 @@
         keepers[className] = value;
         let matchDiv = document.querySelector(`.match${className}`);
         matchDiv.innerHTML = '';
-        if(keepers[className] == 'seleziona') return;
         let day = 0;
         for(let j=0; j<allMatches.length; j++){        
             if(keepers[className] == allMatches[j].home.name){
@@ -178,7 +257,8 @@
             }
             else if(keepers[className] == allMatches[j].away.name){
                 const defQual = gfgs.filter(x => x.id == allMatches[j].home.id).map(x => x.attackQuality)
-                matchDiv.innerHTML += `<div class="logo" style="background-color: ${(defQual <= 3)?'green':(defQual < 4.5)?'orange':'red'}"><img src="images/${allMatches[j].home.id}.png" height="23" width="23"></div>`            
+                matchDiv.innerHTML += `<div class="logo" style="background-color: ${(defQual <= 3)?'green':(defQual < 4.5)?'orange':'red'}"><img src="images/${allMatches[j].home.id}.png" height="23" width="23"></div>`
+            
             }
         }
         await recalc();
@@ -186,25 +266,30 @@
         console.log(sum);
         let difPerc = 100 * sum / 38;
         console.log(difPerc);
-        document.querySelector('.grid').innerHTML += '<div>'+difPerc+'</div>';
+        document.querySelector('.value').innerHTML = `${Math.round(difPerc)}/100`;
+        document.querySelector('.easy .days').innerHTML = difficolta.filter(x => x === 'E').length;
+        document.querySelector('.medium .days').innerHTML = difficolta.filter(x => x === 'M').length;
+        document.querySelector('.hard .days').innerHTML = difficolta.filter(x => x === 'H').length;
     }
     function recalc(){
         difficolta = Array(38).fill('H');
+        console.log(keepers);
         for(let i=0; i<allMatches.length; i++){
-            if(keepers.contains(allMatches[i].home.name)){
+            if(keepers.includes(allMatches[i].home.name)){
                 const defQual = gfgs.filter(x => x.id == allMatches[i].away.id).map(x => x.attackQuality);
                 if(difficolta[parseInt(i/10)] == 'H' && defQual <= 4)
                     difficolta[parseInt(i/10)] = (defQual <= 3) ? 'E' : 'M';
                 if(difficolta[parseInt(i/10)] == 'M' && defQual <= 3)
                     difficolta[parseInt(i/10)] = 'E';                    
-            } 
-            if(keepers.contains(allMatches[i].away.name)){
+            }
+ 
+            if(keepers.includes(allMatches[i].away.name)){
                 const defQual = gfgs.filter(x => x.id == allMatches[i].home.id).map(x => x.attackQuality);
                 if(difficolta[parseInt(i/10)] == 'H' && defQual <= 4)
                     difficolta[parseInt(i/10)] = (defQual <= 3) ? 'E' : 'M';
                 if(difficolta[parseInt(i/10)] == 'M' && defQual <= 3)
                     difficolta[parseInt(i/10)] = 'E';                    
-            } 
+            }
         }
     }
 
