@@ -1,15 +1,18 @@
+
+let allMatches = [];
+
 /* Trova giornata attuale */
 function currentDay(matches){
-      //console.log(matches.length);
-     for(let i=9; i<matches.length; i+=10){
-         const isFuture = isFutureMatch(matches[i]);
-         //console.log(isFuture);
-         if(isFuture == true){
-             return i-8;
-         }
-     }
-      return 1;
-  }
+    //console.log(matches.length);
+    for(let i=9; i<matches.length; i+=10){
+        const isFuture = isFutureMatch(matches[i]);
+        //console.log(isFuture);
+        if(isFuture == true){
+            return i-8;
+        }
+    }
+    return 1;
+}
 
 function isFutureMatch(match) {
     const matchDate = new Date(match.status.utcTime);
@@ -83,29 +86,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 /* Calcolo */
+let years = [2024];
+let lastYearData = [];
+let lastYearGfgs = [];
 
+// Calcolo originale
 function calc(player, squadraCasa, squadraTrasferta, gfgs){
+    const day = currentDay(allMatches);
     const mediaxG = 1.5;
     let forzaOffensiva = 0;
     let debolezzaDifensiva = 0;
-    for (let i = 0; i < gfgs.length; i++) {
-        //console.log(idAgainst + " - " + gfgs[i].id);
-        if (squadraCasa == gfgs[i].id) {
-            forzaOffensiva = gfgs[i].GF90 / mediaxG;
-        }
-        if (squadraTrasferta == gfgs[i].id) {
-            debolezzaDifensiva = gfgs[i].GS90 / mediaxG;
-        }
-        //console.log(`${gfgs[i].id}   ${squadraTrasferta}`);
+
+    if(day<=3){
+        forzaOffensiva = lastYearGfgs.filter(x => x.id == squadraCasa).map(x => x.GF90) / mediaxG;
+        debolezzaDifensiva = lastYearGfgs.filter(x => x.id == squadraTrasferta).map(x => x.GS90) / mediaxG;
     }
-    debolezzaDifensiva = (gfgs.filter(x => x.id == squadraTrasferta).map(x => x.GS90))/mediaxG;
-    console.log(`${gfgs.filter(x => x.id == squadraTrasferta).map(x => x.GS90)}/${mediaxG}`);
+    else{
+        forzaOffensiva = gfgs.filter(x => x.id == squadraCasa).map(x => x.GF90) / mediaxG;
+        debolezzaDifensiva = gfgs.filter(x => x.id == squadraTrasferta).map(x => x.GS90) / mediaxG;
+    }
+
+    if(player.MinutesPlayed < 270){
+        if (lastYearData.findIndex(x => x.ParticipantId == player.ParticipantId) != -1)
+            player = lastYearData.filter(x => x.ParticipantId == player.ParticipantId).map(x => x)[0];
+        else
+            return "NaN"
+    }
 
     console.log(player);
 
     if(player.role == 'P'){
-        let DifStab = gfgs.filter(x => x.id == squadraCasa).map(x => x.GS90)/mediaxG; /* Stabilità difensiva */
-        let OffAvv = gfgs.filter(x => x.id == squadraTrasferta).map(x => x.GF90)/mediaxG; /* Forza offensiva avversari */
+        let DifStab = gfgs.filter(x => x.id == squadraCasa).map(x => x.GS90)/mediaxG; // Stabilità difensiva
+        let OffAvv = gfgs.filter(x => x.id == squadraTrasferta).map(x => x.GF90)/mediaxG; // Forza offensiva avversari
         console.log("--"+DifStab);
         console.log("--"+OffAvv);
         let probCS = (2*(player.CleanS/player.MatchesPlayed) + 1*(player.SavePercentage) + 1*DifStab - 1*OffAvv)/5;
@@ -127,6 +139,100 @@ function calc(player, squadraCasa, squadraTrasferta, gfgs){
     //console.log(`Possibilità di gol -> ${Math.round(ValAttGol * 10000) / 100}%`);
 }
 
+// Nuovo calcolo
+function newCalc(player, squadraCasa, squadraTrasferta, gfgs){
+    const day = currentDay(allMatches);
+    const V = (day<30) ? 1 : 1.5;  // Volontà di segnare (aggiumgere calcolo in lotta (1.5) o non (0.5))
+    const mediaxG = 1.5;
+    let forzaOffensiva = 0;
+    let debolezzaDifensiva = 0;
+
+    if(day<=3){
+        forzaOffensiva = lastYearGfgs.filter(x => x.id == squadraCasa).map(x => x.GF90) / mediaxG;
+        debolezzaDifensiva = lastYearGfgs.filter(x => x.id == squadraTrasferta).map(x => x.GS90) / mediaxG;
+    }
+    else{
+        forzaOffensiva = gfgs.filter(x => x.id == squadraCasa).map(x => x.GF90) / mediaxG;
+        debolezzaDifensiva = gfgs.filter(x => x.id == squadraTrasferta).map(x => x.GS90) / mediaxG;
+    }
+
+    /*for (let i = 0; i < gfgs.length; i++) {
+        //console.log(idAgainst + " - " + gfgs[i].id);
+        if (squadraCasa == gfgs[i].id) {
+            forzaOffensiva = gfgs[i].GF90 / mediaxG;
+        }
+        if (squadraTrasferta == gfgs[i].id) {
+            debolezzaDifensiva = gfgs[i].GS90 / mediaxG;
+        }
+        //console.log(`${gfgs[i].id}   ${squadraTrasferta}`);
+    }*/
+
+    if(player.MinutesPlayed < 270){
+        if (lastYearData.findIndex(x => x.ParticipantId == player.ParticipantId) != -1)
+            player = lastYearData.filter(x => x.ParticipantId == player.ParticipantId).map(x => x)[0];
+        else
+            return "NaN"
+    }
+    console.log(player);
+
+    if(player.role == 'P'){
+        let DifStab = gfgs.filter(x => x.id == squadraCasa).map(x => x.GS90)/mediaxG; // Stabilità difensiva
+        let OffAvv = gfgs.filter(x => x.id == squadraTrasferta).map(x => x.GF90)/mediaxG; // Forza offensiva avversari
+        /*console.log("--"+DifStab);
+        console.log("--"+OffAvv);*/
+        let probCS = (2*(player.CleanS/player.MatchesPlayed) + 1*(player.SavePercentage) + 1*DifStab - 1*OffAvv)/5;
+        return Math.round(probCS * 100) / 100;
+    }
+
+
+    let tt = Math.floor((player.Tiri * (player.MinutesPlayed / 90)) + 1);
+    let ts = Math.floor((player.TiriInPorta * (player.MinutesPlayed / 90)) + 1);
+
+    let precisione = (player.Tiri == 0 && player.TiriInPorta == 0) ? 0.5 : ts / tt;
+
+    console.log(`${V}*(${player.XG90}*${precisione}*${forzaOffensiva}*${debolezzaDifensiva})`);
+    let ValAttGol;
+    if(player.GF > player.XG+2)
+        ValAttGol = V * ((player.GF/(player.MinutesPlayed/90)) * precisione * forzaOffensiva * debolezzaDifensiva);
+    else
+        ValAttGol = V * (player.XG90 * precisione * forzaOffensiva * debolezzaDifensiva);
+    console.log(ValAttGol);
+    /*if((Math.round(ValAttGol * 10000) / 100) == "Infinity"){
+        return "NaN";
+    }*/
+    ValAttGol = (1 - Math.exp(-ValAttGol / 2.5)) * 100
+    return Math.round(ValAttGol * 10)/10;
+    //console.log(`Possibilità di gol -> ${Math.round(ValAttGol * 10000) / 100}%`);
+}
+
+/* Calcolo abbinamento portieri */
+function calcKeepers(keepers){
+    difficolta = Array(38).fill('H');
+    console.log(keepers);
+    for(let i=0; i<allMatches.length; i++){
+        if(keepers.includes(allMatches[i].home.name)){
+            const defQual = gfgs.filter(x => x.id == allMatches[i].away.id).map(x => x.attackQuality);
+            if(difficolta[parseInt(i/10)] == 'H' && defQual <= 4)
+                difficolta[parseInt(i/10)] = (defQual <= 3) ? 'E' : 'M';
+            if(difficolta[parseInt(i/10)] == 'M' && defQual <= 3)
+                difficolta[parseInt(i/10)] = 'E';                    
+        }
+
+        if(keepers.includes(allMatches[i].away.name)){
+            const defQual = gfgs.filter(x => x.id == allMatches[i].home.id).map(x => x.attackQuality);
+            if(difficolta[parseInt(i/10)] == 'H' && defQual <= 4)
+                difficolta[parseInt(i/10)] = (defQual <= 3) ? 'E' : 'M';
+            if(difficolta[parseInt(i/10)] == 'M' && defQual <= 3)
+                difficolta[parseInt(i/10)] = 'E';                    
+        }
+    }
+    let sum = difficolta.reduce((_sum, x) => _sum + ((x == 'E') ? 1 : (x == 'M') ? 0.5 : 0), 0)
+    console.log(sum);
+    let difPerc = 100 * sum / 38;
+    difPerc = Math.round(difPerc);
+    console.log(difPerc);
+    return difPerc;
+}
 
 /* Divisioni per ruolo */
 

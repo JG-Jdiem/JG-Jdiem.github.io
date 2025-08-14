@@ -24,10 +24,14 @@
     .day, .logo{
         width: 32px;
         min-width: 32px;
+        max-width: 32px;
         aspect-ratio: 1;
-        background-color: gray;
+        max-height: 32px;
+        background-color: var(--BlueLightMode);
+        color: white;
         border-radius: 8px;
         align-content: center;
+        font-size: 16px;
         text-align: center;
     }
     .keepers{
@@ -46,6 +50,8 @@
         height: 32px;
         min-height: 32px;
         border-radius: 8px;
+        font-size: 100%;
+        font-weight: 200;
     }
     .matches{
         display: flex;
@@ -67,7 +73,7 @@
         margin-inline: auto;
     }
     .result{
-        margin-top: 5vh;
+        margin-block: 5vh;
         margin-inline: auto;
         width: 80%;
         display: flex;
@@ -93,8 +99,30 @@
         display: flex;
         flex-direction: column;
     }
+    .team{
+        background-color: white;
+        color: black;
+        border: solid 1px gray;
+    }
+    .p92{
+        color: black;
+        background-color: var(--BlueLightMode);
+        border-color: var(--BlueLightMode);
+    }
+    .p89{
+        border-color: var(--BlueLightMode);
+        color: var(--BlueLightMode)
+    }
     .days{
         margin-inline: auto;
+    }
+    .landscape-teams{
+        width: 814px;
+    }
+    .portrait-teams{
+        display: flex;
+        flex-direction: column;
+        gap:5px;
     }
     @media(orientation: portrait){
         .result{
@@ -116,9 +144,36 @@
         }
     }
     @media(prefers-color-scheme: dark){
+        .day{
+            background-color: var(--BlueDarkMode);
+        }
         .result:hover{
             transform: translateY(-2px);
             box-shadow: 0 4px 8px white;
+        }
+        .result{
+            color: white
+        }
+        .keeper{
+            color: white;
+        }
+        option{
+            color:white;
+            background-color: black;
+        }
+        .team{
+            background-color: black;
+            border: solid 1px gray;
+            color: white
+        }
+        .p92{
+            color: white;
+            background-color: var(--BlueDarkMode);
+            border-color: var(--BlueDarkMode);
+        }
+        .p89{
+            border-color: var(--BlueDarkMode);
+            color: var(--BlueDarkMode)
         }
     }
 </style>
@@ -183,11 +238,15 @@
         </div>
     </div>
 
+    <div class="grid keepers-grid">
+        <div class="days landscape-teams">
+            
+        </div>
+    </div>
 
 </body>
 <script src="script.js"></script>  
 <script>
-    let allMatches = [];
     let gfgs = [];
     let allTeams = [];
     let difficolta = Array(38).fill('H');
@@ -228,6 +287,31 @@
                         modifyKeeper(this.className);
                     });
                 });
+            }
+
+            const landscape = document.querySelector('.landscape-teams');
+            gfgs.sort((a, b) => a.name.localeCompare(b.name));
+            landscape.innerHTML += `<div class="day team" style="color: transparent; border-color: transparent; background-color: transparent"></div>`;
+            for(let i=0; i<gfgs.length; i++){
+                landscape.innerHTML += `
+                    <div class="day team" style="background-image: url('images/${gfgs[i].id}.png'); background-size: cover"></div>
+                `;
+            }
+            const grid = document.querySelector('.keepers-grid');
+            for(let i=0; i<gfgs.length; i++){
+                const team = document.createElement('div');
+                team.classList += 'landscape-teams';
+                team.classList += ' days';
+                team.innerHTML += `
+                    <div class="day team" style="background-image: url('images/${gfgs[i].id}.png'); background-size: cover"></div>
+                `;
+                for(let j=0; j<gfgs.length; j++){
+                    const value = calcKeepers([gfgs[i].name, gfgs[j].name]);
+                    team.innerHTML += `
+                        <div class="day team ${(value>=89)? (value>=92)? "p92" : "p89" : ""}">${value}</div>
+                    `;
+                }
+                grid.appendChild(team);
             }
         } catch (error) {
             console.error('Errore nel caricamento delle partite:', error);

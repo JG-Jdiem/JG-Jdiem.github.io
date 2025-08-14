@@ -218,6 +218,7 @@
         </div>
     </header>
     <hr>
+    <div class="checkbox" style="display: flex; color: gray"><input type="checkbox" class="calc" value="new" onchange="caricaDettagli()">Nuovo calcolo</div>
     <div id="match-details">
         <!-- I dettagli verranno inseriti qui -->
     </div>
@@ -238,6 +239,9 @@
 
         function renderizzaConfrontoRuoli(squadraCasa, squadraTrasferta, gfgs) {
             
+            const checkbox = document.querySelector('.calc').checked;
+            console.log(checkbox);
+
             const ruoli = Object.keys(squadraCasa.players);
             console.log(squadraCasa.players);
             console.log(squadraTrasferta.players);
@@ -256,7 +260,7 @@
                         <div class="team-home">
                             <ul class="player-list">
                                 ${squadraCasa.players[ruolo].map(player => 
-                                    `<li class="li_home" style="flex-direction: row" onclick="window.location.href = 'player.html?id=${player?.ParticipantId}'"><div class="name">${player?.ParticipantName || N/A}</div><div class="indice">${calc(player, squadraCasa.id, squadraTrasferta.id, gfgs)}%</div></li>`
+                                    `<li class="li_home" style="flex-direction: row" onclick="window.location.href = 'player.html?id=${player?.ParticipantId}'"><div class="name">${player?.ParticipantName || N/A}</div><div class="indice">${(checkbox)? newCalc(player, squadraCasa.id, squadraTrasferta.id, gfgs) : calc(player, squadraCasa.id, squadraTrasferta.id, gfgs)}%</div></li>`
                                 ).join('')}
                             </ul>
                         </div>
@@ -264,7 +268,7 @@
                         <div class="team-away">
                             <ul class="player-list">
                                 ${squadraTrasferta.players[ruolo].map(player => 
-                                    `<li class="li_away" style="flex-direction: row-reverse" onclick="window.location.href = 'player.html?id=${player?.ParticipantId}'"><div class="name">${player?.ParticipantName || N/A}</div><div class="indice">${calc(player, squadraTrasferta.id, squadraCasa.id, gfgs)}%</div></li>`
+                                    `<li class="li_away" style="flex-direction: row-reverse" onclick="window.location.href = 'player.html?id=${player?.ParticipantId}'"><div class="name">${player?.ParticipantName || N/A}</div><div class="indice">${(checkbox)? newCalc(player, squadraTrasferta.id, squadraCasa.id, gfgs) : calc(player, squadraTrasferta.id, squadraCasa.id, gfgs)}%</div></li>`
                                 ).join('')}
                             </ul>
                         </div>
@@ -273,7 +277,7 @@
             `).join('');
         }
 
-        function caricaDettagli() {
+        async function caricaDettagli() {
             const urlParams = new URLSearchParams(window.location.search);
             const partita = urlParams.get('partita');
             const [squadraCasa, squadraTrasferta] = partita.split('-');
@@ -286,6 +290,18 @@
             })
             .catch(error => console.error(error));
 
+            if (allMatches.length === 0) {
+                const response = await fetch('calendario.json');
+                allMatches = await response.json();
+            }
+            if (lastYearGfgs.length === 0) {
+                const response = await fetch(`GFGS${years[years.length-1]}.json`);
+                lastYearGfgs = await response.json();
+            }
+            if (lastYearData.length === 0) {
+                const response = await fetch(`data${years[years.length-1]}.json`);
+                lastYearData = await response.json();
+            }
 
             // Sostituisci con il percorso del tuo file JSON
             fetch('data.json')
