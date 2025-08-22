@@ -98,8 +98,8 @@ function calc(player, squadraCasa, squadraTrasferta, gfgs){
     let debolezzaDifensiva = 0;
 
     if(day<=3){
-        forzaOffensiva = lastYearGfgs.filter(x => x.id == squadraCasa).map(x => x.GF90) / mediaxG;
-        debolezzaDifensiva = lastYearGfgs.filter(x => x.id == squadraTrasferta).map(x => x.GS90) / mediaxG;
+        forzaOffensiva = lastYearGfgs.filter(x => x.id == squadraCasa).map(x => x.GF90) ?? 0.8 / mediaxG;
+        debolezzaDifensiva = lastYearGfgs.filter(x => x.id == squadraTrasferta).map(x => x.GS90) ?? 1.5 / mediaxG;
     }
     else{
         forzaOffensiva = gfgs.filter(x => x.id == squadraCasa).map(x => x.GF90) / mediaxG;
@@ -148,8 +148,8 @@ function newCalc(player, squadraCasa, squadraTrasferta, gfgs){
     let debolezzaDifensiva = 0;
 
     if(day<=3){
-        forzaOffensiva = lastYearGfgs.filter(x => x.id == squadraCasa).map(x => x.GF90) / mediaxG;
-        debolezzaDifensiva = lastYearGfgs.filter(x => x.id == squadraTrasferta).map(x => x.GS90) / mediaxG;
+        forzaOffensiva = lastYearGfgs.filter(x => x.id == squadraCasa).map(x => x.GF90) ?? 0.8 / mediaxG;
+        debolezzaDifensiva = lastYearGfgs.filter(x => x.id == squadraTrasferta).map(x => x.GS90) ?? 1.5 / mediaxG;
     }
     else{
         forzaOffensiva = gfgs.filter(x => x.id == squadraCasa).map(x => x.GF90) / mediaxG;
