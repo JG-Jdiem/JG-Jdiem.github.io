@@ -1,135 +1,156 @@
 <!DOCTYPE html>
 
 <html lang="it">
+
 <head>
-  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-  <meta name = "theme-color" content="#000000">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles/style.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
-  <title>FantaStats | Formazioni</title>
-  <style>
-      :root {
-          --portieri: #f7aa0f;
-          --difensori: #5ac20a;
-          --centrocampisti: #2363e4;
-          --attaccanti: #f10f32;
-          --BlueLightMode: #024cc8;
-          --BlueDarkMode: #1f73ff;
-      }
-      .container, .containerReplacements{
-          width: 80%;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-      }
-      .team-header{
-          background: linear-gradient(135deg, var(--BlueDarkMode), var(--BlueLightMode));
-          color: black;
-          padding: 20px;
-          border-radius: 10px;
-          margin-bottom: 20px;
-          margin-top: 40px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-      }
-      .team-info{
-          flex-grow: 1;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          background-color: transparent;
-      }
-        .fa-trash, .fa-pen{
+    <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+    <meta name="theme-color" content="#000000">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
+    <title>FantaStats | Formazioni</title>
+    <style>
+        :root {
+            --portieri: #f7aa0f;
+            --difensori: #5ac20a;
+            --centrocampisti: #2363e4;
+            --attaccanti: #f10f32;
+            --BlueLightMode: #024cc8;
+            --BlueDarkMode: #1f73ff;
+        }
+
+        .container,
+        .containerReplacements {
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .team-header {
+            background: linear-gradient(135deg, var(--BlueDarkMode), var(--BlueLightMode));
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .team-info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+        }
+
+        .fa-trash,
+        .fa-pen {
             position: absolute;
-          color: white;
+            color: white;
             background-color: transparent;
             border: 0;
         }
-      .fa-trash{
-          left: 10%;
-      }
-      .fa-pen{
-          right: 10%;
-      }
-      /*.name{
+
+        .fa-trash {
+            left: 10%;
+        }
+
+        .fa-pen {
+            right: 10%;
+        }
+
+        /*.name{
           font-size: 2rem;
       }*/
-      .players-section{
-          min-height: 15rem;
-          display: flex;
-          flex-direction: column;
-          align-items: center; 
-          background-color: white;
-          border-radius: 10px;
-      }
-      .players-header{
-          display: flex;
-          flex-direction: row;
-          width: 90%;
-          height: 5.5rem;
-          color: black;
-          align-items: center;
-          justify-content: space-evenly;
-          background-color: transparent;
-          transition: transform 0.2s;
-          border-bottom: 1px solid #eee;
-          margin-bottom: 2vh;
-      }
-      .player{
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: space-around;
-          min-height: 2vw;
-          height: auto;
-          margin-block: 1vh;
-          padding: 5px;
-          padding-block: 12px;
-          border-radius: 2rem;
-          transition: transform 0.2s;
-      }
-      .player:hover{
-          transform: translateY(-2px);
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-      .role{
-          width: 2.4vw;
-          height: 2.4vw;
-          border-radius: 100px;
-          font-size: 1.8vw;
-          text-align: center;
-          align-content: center;
-          color: white;
-      }
-      .P{
-          background-color: var(--portieri);
-      }
-      .D{
-          background-color: var(--difensori);
-      }
-      .C{
-          background-color: var(--centrocampisti);
-      }
-      .A{
-          background-color: var(--attaccanti);
-      }
-      .name-trash{
-          width: 60%;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-      }
-      .name_player{
-          height: 2.8vw;
-          font-size: 2.4vw;
-          text-align: center;
-          align-content: center;
-      }
-      /*.fa-trash{
+        .players-section {
+            min-height: 15rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: white;
+            border-radius: 10px;
+        }
+
+        .players-header {
+            display: flex;
+            flex-direction: row;
+            width: 90%;
+            height: 5.5rem;
+            color: black;
+            align-items: center;
+            justify-content: space-evenly;
+            background-color: transparent;
+            transition: transform 0.2s;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 2vh;
+        }
+
+        .player {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            min-height: 2vw;
+            height: auto;
+            margin-block: 1vh;
+            padding: 5px;
+            padding-block: 12px;
+            border-radius: 2rem;
+            transition: transform 0.2s;
+        }
+
+        .player:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .role {
+            width: 2.4vw;
+            height: 2.4vw;
+            border-radius: 100px;
+            font-size: 1.8vw;
+            text-align: center;
+            align-content: center;
+            color: white;
+        }
+
+        .P {
+            background-color: var(--portieri);
+        }
+
+        .D {
+            background-color: var(--difensori);
+        }
+
+        .C {
+            background-color: var(--centrocampisti);
+        }
+
+        .A {
+            background-color: var(--attaccanti);
+        }
+
+        .name-trash {
+            width: 60%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .name_player {
+            height: 2.8vw;
+            font-size: 2.4vw;
+            text-align: center;
+            align-content: center;
+        }
+
+        /*.fa-trash{
           border: 0;
           background-color: transparent;
           margin: 0;
@@ -138,52 +159,61 @@
           width: 2.8vw;
           align-content: center;
       }*/
-      /*.add:hover{
+        /*.add:hover{
           transform: translateY(-2px);
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }*/
-      .hidden{
-          display: none;
-      }
-      .stat{
-          background-color: green;
-          text-align: center;
-          align-content: center;
-          aspect-ratio: 0;
-          padding: 1vw;
-          border-radius: 2rem;
-          color: white;
-      }
-      /*.plus{
+        .hidden {
+            display: none;
+        }
+
+        .stat {
+            background-color: green;
+            text-align: center;
+            align-content: center;
+            aspect-ratio: 0;
+            padding: 1vw;
+            border-radius: 2rem;
+            color: white;
+        }
+
+        /*.plus{
           font-size: 4rem;
           height: 100%;
           display: flex;
       }*/
-      h3, .fa-trash, .fa-pen{
-          font-size: 2.6vw;
-      }
-      .module{
-          width: auto;
-      }
-      .name-container{
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          background-color: transparent;
-          color: white;
-          margin: 0;
-      }   
-      .name-team{
-          color: black;
-          text-align: center;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-      }
-      @media(prefers-color-scheme: dark){
-          /*.add{
+        h3,
+        .fa-trash,
+        .fa-pen {
+            font-size: 2.6vw;
+        }
+
+        .module {
+            width: auto;
+        }
+
+        .name-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-color: transparent;
+            color: white;
+            margin: 0;
+        }
+
+        .name-team {
+            color: black;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media(prefers-color-scheme: dark) {
+
+            /*.add{
               background-color: black;
               color: white;
           }
@@ -191,95 +221,115 @@
               transform: translateY(-2px);
               box-shadow: 0 4px 8px white;
           }*/
-          .players-section{
-              background-color: black;
-              color: white
-          }
-          .players-header{
-              color: white
-          }
-          .fa-trash, .fa-pen{
-              color: white
-          }
-          .player:hover{
-              transform: translateY(-2px);
-              box-shadow: 0 4px 8px white;
-          }
-      }
-      @media (orientation: portrait){
-          .team-header{
-              border-radius: 20px;
-          }
-          .players-header{
-              width: 100%;
-              height: 10vh;
-              background-color: transparent;
-              display: flex;
-              align-items: center;
-              justify-content: space-around;
-          }
-          .player{
+            .players-section {
+                background-color: black;
+                color: white
+            }
+
+            .players-header {
+                color: white
+            }
+
+            .fa-trash,
+            .fa-pen {
+                color: white
+            }
+
+            .player:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px white;
+            }
+        }
+
+        @media (orientation: portrait) {
+            .team-header {
+                border-radius: 20px;
+            }
+
+            .players-header {
+                width: 100%;
+                height: 10vh;
+                background-color: transparent;
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+            }
+
+            .player {
                 justify-content: space-between;
-              padding: 3vw;
-              border-radius: 3rem;
-              margin-block: 0.5vh;
-          }
-          .name_player, .role, .fa-trash, .fa-pen, .stat{
-              font-size: 4vw;
-              align-content: center;
-          }
-          .name_player{
-              min-height: 6vw;
-              height: auto;
-              padding: 0;
-              margin: 0;
-              text-align: center;
-              align-content: center;
-          }
-          .role{
-              width: 4.8vw;
-              height: 4.8vw;
-          }
-          .stat{
-              aspect-ratio: 0;
-              padding: 1.2vw;
-              border-radius: 2rem;
-          }
-          .name-trash{
-              width: 80%;
-              margin-right: 1rem;
-              height: 8vw;
-              text-align: center;
-              align-content: center;
-          }
-          h3, .fa-trash, .fa-pen{
-              font-size: 6vw;
-          }
-      }
-  </style>
+                padding: 3vw;
+                border-radius: 3rem;
+                margin-block: 0.5vh;
+            }
+
+            .name_player,
+            .role,
+            .fa-trash,
+            .fa-pen,
+            .stat {
+                font-size: 4vw;
+                align-content: center;
+            }
+
+            .name_player {
+                min-height: 6vw;
+                height: auto;
+                padding: 0;
+                margin: 0;
+                text-align: center;
+                align-content: center;
+            }
+
+            .role {
+                width: 4.8vw;
+                height: 4.8vw;
+            }
+
+            .stat {
+                aspect-ratio: 0;
+                padding: 1.2vw;
+                border-radius: 2rem;
+            }
+
+            .name-trash {
+                width: 80%;
+                margin-right: 1rem;
+                height: 8vw;
+                text-align: center;
+                align-content: center;
+            }
+
+            h3,
+            .fa-trash,
+            .fa-pen {
+                font-size: 6vw;
+            }
+        }
+    </style>
 </head>
+
 <body>
-<header>
-    <h1>
-        <a href="index.html">
-            <span class="f">F</span><span>antaStats</span>
-        </a>
-    </h1>
-    <div class="menu">
-        <button class="user-teams" onclick="window.location.href='teams.html'"></button>
-        <div class="search">
-            <button class="search-icon"></button>
-            <div class="search-box hidden">
-                <input type="text" id="searchInput" placeholder="Cerca un giocatore...">
-                <div id="searchResults" class="search-results"></div>
+    <header>
+        <h1>
+            <a href="index.html">
+                <span class="f">F</span><span>antaStats</span>
+            </a>
+        </h1>
+        <div class="menu">
+            <button class="user-teams" onclick="window.location.href='teams.html'"></button>
+            <div class="search">
+                <button class="search-icon"></button>
+                <div class="search-box hidden">
+                    <input type="text" id="searchInput" placeholder="Cerca un giocatore...">
+                    <div id="searchResults" class="search-results"></div>
+                </div>
             </div>
         </div>
-    </div>
-</header>
-  <hr>
-<h2>Miglior Formazione</h2>
+    </header>
+    <hr>
+    <h2>Miglior Formazione</h2>
     <div class="team-header">
-        
+
     </div>
     <div class="players-section">
         <div class="players-header">
@@ -300,149 +350,166 @@
         </div>
         <div class="containerReplacements" id="containerReplacements"></div>
     </div>
-  <script src="script.js"></script>
-  <script>
+    <script src="script.js"></script>
+    <script>
 
-      var team;
-      var players;
-      var matches;
-      var thisDay;
-      var gfgs;
+        var team;
+        var players;
+        var matches;
+        var thisDay;
+        var gfgs;
 
-      async function load(){
-          const data = JSON.parse(localStorage.getItem("teams"));
-          //console.log(data);
-          const urlParams = new URLSearchParams(window.location.search);
-          let name;
-          name = urlParams.get('name');
+        async function load() {
+            const data = JSON.parse(localStorage.getItem("teams"));
+            //console.log(data);
+            const urlParams = new URLSearchParams(window.location.search);
+            let name;
+            name = urlParams.get('name');
 
-          //console.log(name);
+            //console.log(name);
 
-          if(name == null){
-              const container = document.querySelector(".team-header");
-              container.innerHTML = '';
-              const teamName = document.createElement("div");
-              teamName.className = "team-info";
-              teamName.innerHTML = `<h3 class="name-container" style="color: red">⚠Bad Request⚠</h3>`;
-              container.appendChild(teamName);
-              return;
-          }          
-          
-          const index = data.teams.findIndex(x => x.name == name);
-          //console.log(data.teams);
-          if(index == -1){
-              const container = document.querySelector(".team-header");
-              container.innerHTML = '';
-              const teamName = document.createElement("div");
-              teamName.className = "team-info";
-              teamName.innerHTML = `<h3 class="name-container" style="color: gold">⚠Squadra "${name}" mancante⚠<br></h3><h3 class="name-container">Squadre create: ${data.teams.length}</h3>`;
-              for(let i=0; i<data.teams.length; i++){
-                  teamName.innerHTML += `<br><h3 class="name-container" onclick="window.location.href='team.html?name=${data.teams[i].name}'">${data.teams[i].name} -> ${data.teams[i].player.length} giocatori</h3>`;
-              }
-              container.appendChild(teamName);
-              return;
-          }         
-          team = data.teams[index];
-          //console.log(team);
-          const container = document.querySelector(".team-header");
-          container.innerHTML = '';
-          const teamName = document.createElement("div");
-          teamName.className = "team-info";
-          teamName.innerHTML = `<h3 class="name-container">${team.name}</h3><button class="fa-solid fa-pen" onclick="editTeam(${index})"></button><button class="fa-solid fa-trash" onclick="removeTeam(${index})"></button>`;
-          container.appendChild(teamName);
+            if (name == null) {
+                const container = document.querySelector(".team-header");
+                container.innerHTML = '';
+                const teamName = document.createElement("div");
+                teamName.className = "team-info";
+                teamName.innerHTML = `<h3 class="name-container" style="color: red">⚠Bad Request⚠</h3>`;
+                container.appendChild(teamName);
+                return;
+            }
 
-          const module = document.getElementById("module");
-          const selectedOption = module.options[module.selectedIndex];
-          var nD = parseInt(selectedOption.getAttribute("D"));
-          var nC = parseInt(selectedOption.getAttribute("C")); 
-          var nA = parseInt(selectedOption.getAttribute("A"));
-
-          await readData();
-          await readMatches();
-          const day = await currentDay(matches)-1;
-          await today(day, day+10);
-          //console.log(thisDay);
-          await readGFGS();
-
-          for(let i=0; i<team.player.length; i++){
-                const home = players.filter(x=>x.ParticipantId == team.player[i].id).map(x=>x.TeamId);
-                var opponent = thisDay.filter(x=>x.home.id == home).map(x=>x.away.id) || null;
-                if(opponent==null || opponent == ""){
-                    opponent = thisDay.filter(x=>x.away.id == home).map(x=>x.home.id) || null;
+            const index = data.teams.findIndex(x => x.name == name);
+            //console.log(data.teams);
+            if (index == -1) {
+                const container = document.querySelector(".team-header");
+                container.innerHTML = '';
+                const teamName = document.createElement("div");
+                teamName.className = "team-info";
+                teamName.innerHTML = `<h3 class="name-container" style="color: gold">⚠Squadra "${name}" mancante⚠<br></h3><h3 class="name-container">Squadre create: ${data.teams.length}</h3>`;
+                for (let i = 0; i < data.teams.length; i++) {
+                    teamName.innerHTML += `<br><h3 class="name-container" onclick="window.location.href='team.html?name=${data.teams[i].name}'">${data.teams[i].name} -> ${data.teams[i].player.length} giocatori</h3>`;
                 }
-              //console.log(players.findIndex(x => x.ParticipantId == team.player[i].id));
-                const stat = calc(players[players.findIndex(x => x.ParticipantId == team.player[i].id)], home, opponent, gfgs);
+                container.appendChild(teamName);
+                return;
+            }
+            team = data.teams[index];
+            //console.log(team);
+            const container = document.querySelector(".team-header");
+            container.innerHTML = '';
+            const teamName = document.createElement("div");
+            teamName.className = "team-info";
+            teamName.innerHTML = `<h3 class="name-container">${team.name}</h3><button class="fa-solid fa-pen" onclick="editTeam(${index})"></button><button class="fa-solid fa-trash" onclick="removeTeam(${index})"></button>`;
+            container.appendChild(teamName);
+
+            const module = document.getElementById("module");
+            const selectedOption = module.options[module.selectedIndex];
+            var nD = parseInt(selectedOption.getAttribute("D"));
+            var nC = parseInt(selectedOption.getAttribute("C"));
+            var nA = parseInt(selectedOption.getAttribute("A"));
+
+            await readData();
+            await readMatches();
+            if (lastYearGfgs.length === 0) {
+                const response = await fetch(`GFGS${years[years.length - 1]}.json`);
+                lastYearGfgs = await response.json();
+            }
+            if (lastYearData.length === 0) {
+                const response = await fetch(`data${years[years.length - 1]}.json`);
+                lastYearData = await response.json();
+            }
+            const day = await currentDay(matches) - 1;
+            await today(day, day + 10);
+            //console.log(thisDay);
+            await readGFGS();
+
+            for (let i = 0; i < team.player.length; i++) {
+                const home = players.filter(x => x.ParticipantId == team.player[i].id).map(x => x.TeamId)[0];
+                var opponent = thisDay.filter(x => x.home.id == home).map(x => x.away.id)[0] || null;
+                if (opponent == null || opponent == "") {
+                    opponent = thisDay.filter(x => x.away.id == home).map(x => x.home.id)[0] || null;
+                }
+                //console.log(players[players.findIndex(x => x.ParticipantId == team.player[i].id)].ParticipantName);
+                //console.log(i, home, opponent);
+                const stat = newCalc(players[players.findIndex(x => x.ParticipantId == team.player[i].id)], home, opponent, gfgs);
+                console.log(stat)
                 team.player[i].stat = stat;
-          }
-          
-          // Ordina i giocatori per stat in ordine decrescente
-          team.player.sort((a, b) => b.stat - a.stat);
-          
-          team.player = await raggruppaPerId(team.player);
+            }
 
-          const mod = await bestLineUp();
-          console.log(mod);
-          nD = mod.nD;
-          nC = mod.nC;
-          nA = mod.nA;
-          loadLineUp(nD, nC, nA);
-          
-          console.log(team);
-          
-      }
-
-      function readData(){
-          return fetch('data.json') // Assicurati di avere questo file
-          .then(response => response.json())
-          .then(data => {
-            players = data;        
-            //console.log(players[0]);
-          })
-          .catch(error => {
-            console.error('Errore nel caricamento dei giocatori:', error);
-          });
-      }
-
-      function readMatches(){
-            return fetch('calendario.json') // Assicurati di avere questo file
-            .then(response => response.json())
-            .then(data => {
-              matches = data;
-            })
-            .catch(error => {
-              console.error('Errore nel caricamento dei giocatori:', error);
+            // Ordina i giocatori per stat in ordine decrescente
+            //team.player.sort((a, b) => b.stat - a.stat);
+            team.player.sort((a, b) => {
+                if (isNaN(b.stat) && isNaN(a.stat)) return 0;
+                if (isNaN(b.stat)) return -1;  //a prima di b
+                if (isNaN(a.stat)) return 1;   //b prima di a
+                return b.stat - a.stat;
             });
+
+            team.player = await raggruppaPerId(team.player);
+
+            const mod = await bestLineUp();
+            console.log(mod);
+            nD = mod.nD;
+            nC = mod.nC;
+            nA = mod.nA;
+            loadLineUp(nD, nC, nA);
+
+            console.log(team);
+
         }
 
-      function readGFGS(){
-          return fetch('GFGS.json') // Assicurati di avere questo file
-          .then(response => response.json())
-          .then(data => {
-            gfgs = data;
-          })
-          .catch(error => {
-            console.error('Errore nel caricamento dei giocatori:', error);
-          });
-      }
+        function readData() {
+            return fetch('data.json') // Assicurati di avere questo file
+                .then(response => response.json())
+                .then(data => {
+                    players = data;
+                    //console.log(players[0]);
+                })
+                .catch(error => {
+                    console.error('Errore nel caricamento dei giocatori:', error);
+                });
+        }
 
-      function today(start, end){
-          thisDay = matches.slice(start, end);
-          return thisDay;
-      }
+        function readMatches() {
+            return fetch('calendario.json') // Assicurati di avere questo file
+                .then(response => response.json())
+                .then(data => {
+                    matches = data;
+                })
+                .catch(error => {
+                    console.error('Errore nel caricamento dei giocatori:', error);
+                });
+        }
+
+        function readGFGS() {
+            return fetch('GFGS.json') // Assicurati di avere questo file
+                .then(response => response.json())
+                .then(data => {
+                    gfgs = data;
+                })
+                .catch(error => {
+                    console.error('Errore nel caricamento dei giocatori:', error);
+                });
+        }
+
+        function today(start, end) {
+            thisDay = matches.slice(start, end);
+            return thisDay;
+        }
 
 
-      function loadLineUp(nD, nC, nA){
-           const container = document.getElementById("container");
-          container.innerHTML = '';
-          
-          const player = document.createElement("div");
-          const role = team.player.portieri[0].role;
-          const stat = team.player.portieri[0].stat;
-          player.className = `player ${team.player.portieri[0].id}`;
-          player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == team.player.portieri[0].id).map(x => x.ParticipantName)}</div><div class="stat")">${stat}%</div></div>`;
-          container.appendChild(player);
-          
-          for(let i=0; i<team.player.difensori.length && i<nD; i++){
+        function loadLineUp(nD, nC, nA) {
+            const container = document.getElementById("container");
+            container.innerHTML = '';
+
+            const player = document.createElement("div");
+            const role = team.player.portieri[0].role;
+            const stat = team.player.portieri[0].stat;
+            player.className = `player ${team.player.portieri[0].id}`;
+            player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == team.player.portieri[0].id).map(x => x.ParticipantName)}</div><div class="stat")">${stat}%</div></div>`;
+            container.appendChild(player);
+            console.log(team.player);
+
+            for (let i = 0; i < team.player.difensori.length && i < nD; i++) {
                 const player = document.createElement("div");
                 const role = team.player.difensori[i].role;
                 const stat = team.player.difensori[i].stat;
@@ -450,121 +517,122 @@
                 player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == team.player.difensori[i].id).map(x => x.ParticipantName)}</div><div class="stat")">${stat}%</div></div>`;
                 container.appendChild(player);
             }
-            for(let i=0; i<team.player.centrocampisti.length && i<nC; i++){
-                  const player = document.createElement("div");
-                  const role = team.player.centrocampisti[i].role;
-                  const stat = team.player.centrocampisti[i].stat;
-                  player.className = `player ${team.player.centrocampisti[i].id}`;
-                  player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == team.player.centrocampisti[i].id).map(x => x.ParticipantName)}</div><div class="stat")">${stat}%</div></div>`;
-                  container.appendChild(player);
+            for (let i = 0; i < team.player.centrocampisti.length && i < nC; i++) {
+                const player = document.createElement("div");
+                const role = team.player.centrocampisti[i].role;
+                const stat = team.player.centrocampisti[i].stat;
+                player.className = `player ${team.player.centrocampisti[i].id}`;
+                player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == team.player.centrocampisti[i].id).map(x => x.ParticipantName)}</div><div class="stat")">${stat}%</div></div>`;
+                container.appendChild(player);
             }
-            for(let i=0; i<team.player.attaccanti.length && i<nA; i++){
-                  const player = document.createElement("div");
-                  const role = team.player.attaccanti[i].role;
-                  const stat = team.player.attaccanti[i].stat;
-                  player.className = `player ${team.player.attaccanti[i].id}`;
-                  player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == team.player.attaccanti[i].id).map(x => x.ParticipantName)}</div><div class="stat")">${stat}%</div></div>`;
-                  container.appendChild(player);
+            for (let i = 0; i < team.player.attaccanti.length && i < nA; i++) {
+                const player = document.createElement("div");
+                const role = team.player.attaccanti[i].role;
+                const stat = team.player.attaccanti[i].stat;
+                player.className = `player ${team.player.attaccanti[i].id}`;
+                player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == team.player.attaccanti[i].id).map(x => x.ParticipantName)}</div><div class="stat")">${stat}%</div></div>`;
+                container.appendChild(player);
             }
-          const containerR = document.getElementById("containerReplacements");
-          containerR.innerHTML = '';
-          for(let i=1; i<team.player.portieri.length; i++){
-              const player = document.createElement("div");
-              const role = team.player.portieri[i].role;
-              const stat = team.player.portieri[i].stat;
-              player.className = `player ${team.player.portieri[i].id}`;
-              player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == team.player.portieri[i].id).map(x => x.ParticipantName)}</div><div class="stat")">${stat}%</div></div>`;
-              containerR.appendChild(player);
-          }
-          for(let i=nD; i<team.player.difensori.length; i++){
-              const player = document.createElement("div");
-              const role = team.player.difensori[i].role;
-              const stat = team.player.difensori[i].stat;
-              player.className = `player ${team.player.difensori[i].id}`;
-              player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == team.player.difensori[i].id).map(x => x.ParticipantName)}</div><div class="stat")">${stat}%</div></div>`;
-              containerR.appendChild(player);
-          }
-          for(let i=nC; i<team.player.centrocampisti.length; i++){
+            const containerR = document.getElementById("containerReplacements");
+            containerR.innerHTML = '';
+            for (let i = 1; i < team.player.portieri.length; i++) {
+                const player = document.createElement("div");
+                const role = team.player.portieri[i].role;
+                const stat = team.player.portieri[i].stat;
+                player.className = `player ${team.player.portieri[i].id}`;
+                player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == team.player.portieri[i].id).map(x => x.ParticipantName)}</div><div class="stat")">${stat}%</div></div>`;
+                containerR.appendChild(player);
+            }
+            for (let i = nD; i < team.player.difensori.length; i++) {
+                const player = document.createElement("div");
+                const role = team.player.difensori[i].role;
+                const stat = team.player.difensori[i].stat;
+                player.className = `player ${team.player.difensori[i].id}`;
+                player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == team.player.difensori[i].id).map(x => x.ParticipantName)}</div><div class="stat")">${stat}%</div></div>`;
+                containerR.appendChild(player);
+            }
+            for (let i = nC; i < team.player.centrocampisti.length; i++) {
                 const player = document.createElement("div");
                 const role = team.player.centrocampisti[i].role;
                 const stat = team.player.centrocampisti[i].stat;
                 player.className = `player ${team.player.centrocampisti[i].id}`;
                 player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == team.player.centrocampisti[i].id).map(x => x.ParticipantName)}</div><div class="stat")">${stat}%</div></div>`;
                 containerR.appendChild(player);
-          }
-          for(let i=nA; i<team.player.attaccanti.length; i++){
+            }
+            for (let i = nA; i < team.player.attaccanti.length; i++) {
                 const player = document.createElement("div");
                 const role = team.player.attaccanti[i].role;
                 const stat = team.player.attaccanti[i].stat;
                 player.className = `player ${team.player.attaccanti[i].id}`;
                 player.innerHTML = `<div class="role ${role}">${role}</div><div class="name-trash"><div class="name_player">${players.filter(x => x.ParticipantId == team.player.attaccanti[i].id).map(x => x.ParticipantName)}</div><div class="stat")">${stat}%</div></div>`;
                 containerR.appendChild(player);
-          }
-      }
+            }
+        }
 
-      function bestLineUp(){
-          const validFormations = [
-              {nD: 3, nC: 4, nA: 3},
-              {nD: 3, nC: 5, nA: 2},
-              {nD: 4, nC: 3, nA: 3},
-              {nD: 4, nC: 4, nA: 2},
-              {nD: 4, nC: 5, nA: 1},
-              {nD: 5, nC: 3, nA: 2},
-              {nD: 5, nC: 4, nA: 1}
-          ];
+        function bestLineUp() {
+            const validFormations = [
+                { nD: 3, nC: 4, nA: 3 },
+                { nD: 3, nC: 5, nA: 2 },
+                { nD: 4, nC: 3, nA: 3 },
+                { nD: 4, nC: 4, nA: 2 },
+                { nD: 4, nC: 5, nA: 1 },
+                { nD: 5, nC: 3, nA: 2 },
+                { nD: 5, nC: 4, nA: 1 }
+            ];
 
-          let bestFormation = validFormations[0];
-          let bestScore = calculateFormationScore(bestFormation);
+            let bestFormation = validFormations[0];
+            let bestScore = calculateFormationScore(bestFormation);
 
-          for(let formation of validFormations) {
-              const score = calculateFormationScore(formation);
-              if(score > bestScore) {
-                  bestScore = score;
-                  bestFormation = formation;
-              }
-          }
+            for (let formation of validFormations) {
+                const score = calculateFormationScore(formation);
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestFormation = formation;
+                }
+            }
 
-          return bestFormation;
-      }
+            return bestFormation;
+        }
 
-      function calculateFormationScore(formation) {
-          const {nD, nC, nA} = formation;
-          let score = 0;
-          
-          // Sum top N players' stats for each role
-          for(let i = 0; i < nD && i < team.player.difensori.length; i++) {
-              score += team.player.difensori[i].stat || 0;
-          }
-          for(let i = 0; i < nC && i < team.player.centrocampisti.length; i++) {
-              score += team.player.centrocampisti[i].stat || 0;
-          }
-          for(let i = 0; i < nA && i < team.player.attaccanti.length; i++) {
-              score += team.player.attaccanti[i].stat || 0;
-          }
-          
-          return score;
-      }
+        function calculateFormationScore(formation) {
+            const { nD, nC, nA } = formation;
+            let score = 0;
 
-      document.addEventListener('DOMContentLoaded', () => load());
-      document.getElementById('module').addEventListener('change', () => {
-          const selectedOption = module.options[module.selectedIndex];
-          const nD = parseInt(selectedOption.getAttribute("D"));
-          const nC = parseInt(selectedOption.getAttribute("C")); 
-          const nA = parseInt(selectedOption.getAttribute("A"));
-          loadLineUp(nD, nC, nA);
-      });
+            // Sum top N players' stats for each role
+            for (let i = 0; i < nD && i < team.player.difensori.length; i++) {
+                score += team.player.difensori[i].stat || 0;
+            }
+            for (let i = 0; i < nC && i < team.player.centrocampisti.length; i++) {
+                score += team.player.centrocampisti[i].stat || 0;
+            }
+            for (let i = 0; i < nA && i < team.player.attaccanti.length; i++) {
+                score += team.player.attaccanti[i].stat || 0;
+            }
 
-      function removeTeam(index){
-          let data = JSON.parse(localStorage.getItem("teams"));
-          data.teams.splice(index, 1);
-          localStorage.setItem("teams", JSON.stringify(data));
-          window.location.href = "teams.html";
-      }
+            return score;
+        }
 
-      function editTeam(index){
-          window.location.href = `add_team.html?id=${index}`;
-      }
-      
-  </script>  
+        document.addEventListener('DOMContentLoaded', () => load());
+        document.getElementById('module').addEventListener('change', () => {
+            const selectedOption = module.options[module.selectedIndex];
+            const nD = parseInt(selectedOption.getAttribute("D"));
+            const nC = parseInt(selectedOption.getAttribute("C"));
+            const nA = parseInt(selectedOption.getAttribute("A"));
+            loadLineUp(nD, nC, nA);
+        });
+
+        function removeTeam(index) {
+            let data = JSON.parse(localStorage.getItem("teams"));
+            data.teams.splice(index, 1);
+            localStorage.setItem("teams", JSON.stringify(data));
+            window.location.href = "teams.html";
+        }
+
+        function editTeam(index) {
+            window.location.href = `add_team.html?id=${index}`;
+        }
+
+    </script>
 </body>
+
 </html>
