@@ -96,8 +96,8 @@ function calc(player, squadraCasa, squadraTrasferta, gfgs){
     const mediaxG = 1.5;
     let forzaOffensiva = 0;
     let debolezzaDifensiva = 0;
-
-    if(day<=3){
+    
+    if(day<=21){
         forzaOffensiva = (lastYearGfgs.filter(x => x.id == squadraCasa).map(x => x.GF90)[0] ?? 0.8) / mediaxG;
         debolezzaDifensiva = (lastYearGfgs.filter(x => x.id == squadraTrasferta).map(x => x.GS90)[0] ?? 1.5) / mediaxG;
     }
@@ -105,7 +105,7 @@ function calc(player, squadraCasa, squadraTrasferta, gfgs){
         forzaOffensiva = gfgs.filter(x => x.id == squadraCasa).map(x => x.GF90) / mediaxG;
         debolezzaDifensiva = gfgs.filter(x => x.id == squadraTrasferta).map(x => x.GS90) / mediaxG;
     }
-
+    console.log(lastYearData);
     if(player.MinutesPlayed < 270){
         if (lastYearData.findIndex(x => x.ParticipantId == player.ParticipantId) != -1)
             player = lastYearData.filter(x => x.ParticipantId == player.ParticipantId).map(x => x)[0];
@@ -142,12 +142,12 @@ function calc(player, squadraCasa, squadraTrasferta, gfgs){
 // Nuovo calcolo
 function newCalc(player, squadraCasa, squadraTrasferta, gfgs){
     const day = currentDay(allMatches);
-    const V = (day<30) ? 1 : 1.5;  // Volontà di segnare (aggiumgere calcolo in lotta (1.5) o non (0.5))
+    const V = (day<291) ? 1 : 1.5;  // Volontà di segnare (aggiumgere calcolo in lotta (1.5) o non (0.5))
     const mediaxG = 1.5;
     let forzaOffensiva = 0;
     let debolezzaDifensiva = 0;
 
-    if(day<=3){
+    if(day<=21){
         forzaOffensiva = (lastYearGfgs.filter(x => x.id == squadraCasa).map(x => x.GF90)[0] ?? 0.8) / mediaxG;
         debolezzaDifensiva = (lastYearGfgs.filter(x => x.id == squadraTrasferta).map(x => x.GS90)[0] ?? 1.5) / mediaxG;
     }
