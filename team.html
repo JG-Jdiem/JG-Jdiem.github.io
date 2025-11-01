@@ -357,7 +357,7 @@
         var players;
         var matches;
         var thisDay;
-        var gfgs;
+        let gfgs = {};
 
         async function load() {
             const data = JSON.parse(localStorage.getItem("teams"));
@@ -376,6 +376,10 @@
                 teamName.innerHTML = `<h3 class="name-container" style="color: red">⚠Bad Request⚠</h3>`;
                 container.appendChild(teamName);
                 return;
+            }
+            if (allMatches.length === 0) {
+                const response = await fetch('calendario.json');
+                allMatches = await response.json();
             }
 
             const index = data.teams.findIndex(x => x.name == name);
@@ -428,8 +432,8 @@
                 if (opponent == null || opponent == "") {
                     opponent = thisDay.filter(x => x.away.id == home).map(x => x.home.id)[0] || null;
                 }
-                //console.log(players[players.findIndex(x => x.ParticipantId == team.player[i].id)].ParticipantName);
-                //console.log(i, home, opponent);
+                console.log(players[players.findIndex(x => x.ParticipantId == team.player[i].id)].ParticipantName);
+                console.log(i, home, opponent);
                 const stat = newCalc(players[players.findIndex(x => x.ParticipantId == team.player[i].id)], home, opponent, gfgs);
                 console.log(stat)
                 team.player[i].stat = stat;
@@ -462,7 +466,7 @@
                 .then(response => response.json())
                 .then(data => {
                     players = data;
-                    //console.log(players[0]);
+                    console.log(players);
                 })
                 .catch(error => {
                     console.error('Errore nel caricamento dei giocatori:', error);

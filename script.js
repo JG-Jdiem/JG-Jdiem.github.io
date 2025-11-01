@@ -141,19 +141,22 @@ function calc(player, squadraCasa, squadraTrasferta, gfgs){
 
 // Nuovo calcolo
 function newCalc(player, squadraCasa, squadraTrasferta, gfgs){
-    const day = currentDay(allMatches);
+    let day = currentDay(allMatches);
     const V = (day<291) ? 1 : 1.5;  // Volontà di segnare (aggiumgere calcolo in lotta (1.5) o non (0.5))
     const mediaxG = 1.5;
     let forzaOffensiva = 0;
     let debolezzaDifensiva = 0;
-
+    console.log(gfgs);
+    console.log(day);
     if(day<=21){
         forzaOffensiva = (lastYearGfgs.filter(x => x.id == squadraCasa).map(x => x.GF90)[0] ?? 0.8) / mediaxG;
         debolezzaDifensiva = (lastYearGfgs.filter(x => x.id == squadraTrasferta).map(x => x.GS90)[0] ?? 1.5) / mediaxG;
+        console.log('last year');
     }
     else{
         forzaOffensiva = gfgs.filter(x => x.id == squadraCasa).map(x => x.GF90) / mediaxG;
         debolezzaDifensiva = gfgs.filter(x => x.id == squadraTrasferta).map(x => x.GS90) / mediaxG;
+        console.log('this year');
     }
 
     /*for (let i = 0; i < gfgs.length; i++) {
