@@ -331,6 +331,7 @@
     <div class="team-header">
 
     </div>
+    <div class="checkbox" style="display: flex; color: gray"><input type="checkbox" class="calc" value="new" onchange="calcAndLoad()" checked>Nuovo calcolo</div>
     <div class="players-section">
         <div class="players-header">
             <h3>Titolari</h3>
@@ -358,12 +359,14 @@
         var matches;
         var thisDay;
         let gfgs = {};
+        let new_calc = false;
+        let data;
+        let name;
 
         async function load() {
-            const data = JSON.parse(localStorage.getItem("teams"));
+            data = JSON.parse(localStorage.getItem("teams"));
             //console.log(data);
             const urlParams = new URLSearchParams(window.location.search);
-            let name;
             name = urlParams.get('name');
 
             //console.log(name);
@@ -425,8 +428,10 @@
             await today(day, day + 10);
             //console.log(thisDay);
             await readGFGS();
+            
+            await calcAndLoad();
 
-            for (let i = 0; i < team.player.length; i++) {
+            /*for (let i = 0; i < team.player.length; i++) {
                 const home = players.filter(x => x.ParticipantId == team.player[i].id).map(x => x.TeamId)[0];
                 var opponent = thisDay.filter(x => x.home.id == home).map(x => x.away.id)[0] || null;
                 if (opponent == null || opponent == "") {
@@ -455,10 +460,49 @@
             nD = mod.nD;
             nC = mod.nC;
             nA = mod.nA;
-            loadLineUp(nD, nC, nA);
+            loadLineUp(nD, nC, nA);*/
 
             console.log(team);
 
+        }
+    
+        async function calcAndLoad(){
+            new_calc = document.querySelector('.calc').checked;
+            data = JSON.parse(localStorage.getItem("teams"));
+            team = data.teams[data.teams.findIndex(x => x.name == name)];
+            console.log(team)
+            for (let i = 0; i < team.player.length; i++) {
+                const home = players.filter(x => x.ParticipantId == team.player[i].id).map(x => x.TeamId)[0];
+                var opponent = thisDay.filter(x => x.home.id == home).map(x => x.away.id)[0] || null;
+                if (opponent == null || opponent == "") {
+                    opponent = thisDay.filter(x => x.away.id == home).map(x => x.home.id)[0] || null;
+                }
+                console.log(players[players.findIndex(x => x.ParticipantId == team.player[i].id)].ParticipantName);
+                //console.log(i, home, opponent);
+                const stat = (new_calc==true)
+                  ? newCalc(players[players.findIndex(x => x.ParticipantId == team.player[i].id)], home, opponent, gfgs)
+                  : calc(players[players.findIndex(x => x.ParticipantId == team.player[i].id)], home, opponent, gfgs)
+                console.log(stat)
+                team.player[i].stat = stat;
+            }
+
+            // Ordina i giocatori per stat in ordine decrescente
+            //team.player.sort((a, b) => b.stat - a.stat);
+            team.player.sort((a, b) => {
+                if (isNaN(b.stat) && isNaN(a.stat)) return 0;
+                if (isNaN(b.stat)) return -1;  //a prima di b
+                if (isNaN(a.stat)) return 1;   //b prima di a
+                return b.stat - a.stat;
+            });
+
+            team.player = await raggruppaPerId(team.player);
+
+            const mod = await bestLineUp();
+            console.log(mod);
+            nD = mod.nD;
+            nC = mod.nC;
+            nA = mod.nA;
+            loadLineUp(nD, nC, nA);
         }
 
         function readData() {
